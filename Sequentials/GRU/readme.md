@@ -6,20 +6,15 @@
 - [x] Team offensive style
 - [x] Team defensive style
 - [x] Overall team ELO team rating 
-- [x]  Odds
+- [x] Odds
 - [x] xG - quality of goalscoring chances (attack form)
 - [x] xGa - ability to prevent scoring chances (defense form) 
 - [x] Ppda - passes allowed per defensive action 
-- [x] Strike
 - [x] Manager candance time
-- Sentiment analysis
 - [x] Bets
 
 ### __Models:__
 - GRU -> many2one
-
-### __Testing:__
-- Cross-validation
 
 ### __Data Preparation:__
 I use ELO ratings equation to calculate team rating based on their last results, so with each match the rating is updated.
