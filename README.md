@@ -4,4 +4,4 @@ _____
 
 ### Sequential Models:
 * [x] RNN using Numpy
-* [ ] Football Predictions using GRU
+* [x] Football Predictions using GRU
