@@ -1,5 +1,7 @@
 import numpy as np
 
+# Equation -> https://www.eloratings.net/about
+
 def ELO_rating(rating_t1, rating_t2, score_t1, score_t2, info):
     # t1 -> team 1
     # t2 -> team2
