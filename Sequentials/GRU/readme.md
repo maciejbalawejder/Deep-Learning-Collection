@@ -13,7 +13,7 @@
 - [x] Manager candance time
 - [x] Bets
 
-### __Models:__
+### __Model:__
 - [x] GRU -> many2one
 
 ### __Data Preparation:__
