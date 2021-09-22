@@ -1,5 +1,5 @@
 # Football predictions project
-In this project I created an GRU architecture to predict the outcome(Win, Draw, Lose) of the Premier League game.
+In this project I created an GRU architecture to predict the outcome(Win, Draw, Lose) of the Premier League game. I recommend checking out my medium article about the [topic]().
 
 ### 1) __Data Preparation:__
 The final dataset contains the combined features listed below from Premier League season 19/20 and 20/21. The format of sequential data is [sample, time step, sequence]. Each sample contains the features of the home team, away team, and odds from last 5 games. To make the form more visible I created the rating column for each team with the initial value taken from Premier League Fantasy dataset. The rating is updated with each game, based on the ELO rating formula.
