@@ -1,23 +1,8 @@
 # Football predictions project
-In this project I created an GRU architecture to predict the outcome(Win, Draw, Lose) of the football game.
+In this project I created an GRU architecture to predict the outcome(Win, Draw, Lose) of the Premier League game.
 
-### __Features:__
-- [x] Team rating 
-- [x] Team offensive style
-- [x] Team defensive style
-- [x] Overall team ELO team rating 
-- [x] Odds
-- [x] xG - quality of goalscoring chances (attack form)
-- [x] xGa - ability to prevent scoring chances (defense form) 
-- [x] Ppda - passes allowed per defensive action 
-- [x] Manager candance time
-- [x] Bets
-
-### __Model:__
-- [x] GRU -> many2one
-
-### __Data Preparation:__
-I use ELO ratings equation to calculate team rating based on their last results, so with each match the rating is updated.
+### 1) __Data Preparation:__
+The final dataset contains the combined features listed below from Premier League season 19/20 and 20/21. The format of sequential data is [sample, time step, sequence]. Each sample contains the features of the home team, away team, and odds from last 5 games. To make the form more visible I created the rating column for each team with the initial value taken from Premier League Fantasy dataset. The rating is updated with each game, based on the ELO rating formula.
 
     Rn = Ro + K(W-We)
     We = 1/(10**(-dr/400)+1)
@@ -29,3 +14,44 @@ I use ELO ratings equation to calculate team rating based on their last results,
     - W -> game result( Win = 1, Draw = 0.5, Loss = 0) 
     - We -> calculated expected result
 
+### 2) __Extracted Features:__
+- __Attacking style(AS)__  -  taken from FIFA21 dataset 
+- __Defensive style(DS)__  -  taken from FIFA21 dataset
+- __Rating home (SOH)__  -  initial ratings is from Premier League Fantasy dataset updated with each game using ELO rating equation
+- __Rating away (SOA)__  -  same as above but for away games 
+- __xG__  -  quality of goalscoring chances (attack form)
+- __xGa__  -  ability to prevent scoring chances (defense form) 
+- __Ppda__  -  passes allowed per defensive action 
+- __Mtime__  -  managers time calculated from the day he started to the date of the game
+- __Odds__  -  bets on outcome of the game home win, draw, away win 
+
+### 3) __Model Architecture:__
+
+| Hyperparameter | Value |
+|:--------------:|:-----:|
+| Batch          | 16    |
+| Optimizer      | Adam  |
+| Learning rate  | 0.0001|
+| Dropout rate   |  0.2  | 
+| Epochs         | 70    | 
+
+![Architecture](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/Sequentials/GRU/figures/Architecture.png)
+
+### 4) __Results__:
+- Accuracy on testing dataset : 92%
+![Results](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/Sequentials/GRU/figures/Loss92.png)
+
+### 5) __Improvements__:
+- Live line-ups 
+- Live form of the players
+- Game schedule - add Champions League and other Tournaments
+- Weather conditions
+- Referee
+- Relationship between teams
+- Sentiment score
+
+### 6) __Datasets links__:
+- https://www.kaggle.com/cashncarry/fifa-21-players-teams-full-database?select=teams_fifa21.csv
+- http://github.com/vaastav/Fantasy-Premier-League
+- https://www.football-data.co.uk/englandm.php
+- https://fbref.com/en/
