@@ -1,6 +1,5 @@
 # Football predictions project
 In this project I created an GRU architecture to predict the outcome(Win, Draw, Lose) of the football game.
----
 
 ### __Features:__
 - [x] Team rating 
