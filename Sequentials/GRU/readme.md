@@ -18,7 +18,7 @@ In this project I created an GRU architecture to predict the outcome(Win, Draw, 
 - [x] GRU -> many2one
 
 ### __Data Preparation:__
-    I use ELO ratings equation to calculate team rating based on their last results, so with each match the rating is updated.
+I use ELO ratings equation to calculate team rating based on their last results, so with each match the rating is updated.
 
     Rn = Ro + K(W-We)
     We = 1/(10**(-dr/400)+1)
