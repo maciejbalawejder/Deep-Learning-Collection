@@ -9,7 +9,7 @@ LeNet-5 was introducted in 1998 by Yann LeCun, Leon Bottou, Yoshua Bengio, Patri
 | Learning rate   | 0.01 |
 | Epochs          | 10   |
 
- (Architecure)[] 
+ ![Architecure](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/architecture.png) 
 
 ### Optimizing hyperparameters 
 - Grid search
