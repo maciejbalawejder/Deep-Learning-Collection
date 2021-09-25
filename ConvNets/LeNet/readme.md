@@ -14,6 +14,8 @@ The paper __Gradient Based Recognition applied to document recognition__ is deta
 | Epochs          | 10   |
 
  ![Architecure](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/architecture.png) 
+ 
+ *I replace the Gaussian connection with the cross entropy loss function which achieve the same results more efficiently.
 
 ### Optimizing hyperparameters 
 - Grid search
