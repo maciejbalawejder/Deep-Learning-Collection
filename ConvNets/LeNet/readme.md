@@ -10,7 +10,7 @@ The paper __Gradient Based Recognition applied to document recognition__ is deta
 |:---------------:|:----:|
 | Batch           | 16   |
 | Optimizer       | SGD  |
-| Learning rate   | 0.01 |
+| Learning rate   | 0.1 |
 | Epochs          | 10   |
 
  ![Architecure](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/architecture.png) 
