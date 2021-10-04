@@ -11,3 +11,4 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [ ] __VGG-16__ -> PyTorch
 - [ ] __AlexNet__ -> PyTorch
 - [ ] __ResNet__ -> PyTorch
+- [ ] __PatchGAN__ -> PyTorch
