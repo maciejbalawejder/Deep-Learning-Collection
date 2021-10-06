@@ -12,7 +12,7 @@ The main achievemtents of this novel approach were:
 ### Hyperparameters
 
 | Hyperparameter | Value | 
-| * --- *        | *----*|
+|:--------------:|:-----:|
 | Loss function | Cross Entropy | 
 | Optimizer    | Adam | 
 | Learning rate | 0.0001 | 
