@@ -7,8 +7,9 @@ The main achievemtents of this novel approach were:
 - faster training time
 
 ### Training dataset 
-
-
+[Cityscape Dataset](https://www.kaggle.com/dansbecker/cityscapes-image-pairs)
+[Input](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/U-Net/data/input_example.jpg)
+[Label](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/U-Net/data/label_example.jpg)
 ### Hyperparameters
 
 | Hyperparameter | Value | 
