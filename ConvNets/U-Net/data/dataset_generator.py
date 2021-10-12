@@ -8,9 +8,9 @@ Original file is located at
 """
 
 import os
-import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 import numpy as np
+from PIL import Image
 
 class Cityscapes(Dataset):
   def __init__(self, path, transform = None):
@@ -24,10 +24,11 @@ class Cityscapes(Dataset):
     return len(self.labels)
   
   def __getitem__(self, index):
-    image = plt.imread(self.images + str(index+1) + '.jpg') / 255
-    label = plt.imread(self.labels + str(index+1) + '.jpg') / 255
+    image = Image.open(self.images + str(index+1) + '.jpg')
+    label = Image.open(self.labels + str(index+1) + '.jpg')
 
     if self.transform is not None:
-      augmentations = self.transform(image = image, mask = label)
+      image = self.transform(image)
+      
 
     return image, label
