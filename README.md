@@ -6,7 +6,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__GRU__](https://medium.com/nerd-for-tech/premier-league-predictions-using-artificial-intelligence-7421dddc8778) / Tensorflow
 
 ### Natural Language Processing
-- [x] __Bidirectional LSTM___
+- [x] __Bidirectional LSTM__
 - [x] __Encoder-Decoder LSTM__
 - [x] __Transformer__ 
 
