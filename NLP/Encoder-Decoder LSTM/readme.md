@@ -4,6 +4,8 @@ The model encoder-decoder RNN was firstly introduced by [Google in 2014](https:/
 
 ### Architecture
 
+[Model](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/model.jpeg)
+
 __Encoder__:
 - stack of several recurrent units (RNN, LSTM, GRU)
 - xi represents each word
