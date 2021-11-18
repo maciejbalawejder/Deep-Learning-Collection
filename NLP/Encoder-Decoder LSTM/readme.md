@@ -34,6 +34,18 @@ German : Ein mann schlaft in einem grunen raum auf einem sofa.
 English : A man sleeping in a green room on a couch.
 ```
 ### __Hyperparameters__:
+| Hyperparameters | Value| 
+|:---------------:|:----:|
+| Batch           | 128   |
+| Optimizer       | Adam  |
+| Learning rate   | 0.001 |
+| Epochs          | 30   |
+| Layers          | 2   |
+| Hidden state    | 512 |
+| Embedding dim    | 300 |
+
+
+
 
 ### __Evaluation__:
 ![Bleu Score](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
