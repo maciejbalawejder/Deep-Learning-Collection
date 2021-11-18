@@ -33,3 +33,7 @@ English : A group of men are loading cotton onto a truck.
 German : Ein mann schlaft in einem grunen raum auf einem sofa. 
 English : A man sleeping in a green room on a couch.
 ```
+### __Hyperparameters__:
+
+### __Evaluation__:
+![Bleu Score](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
