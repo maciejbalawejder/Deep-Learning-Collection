@@ -1,6 +1,6 @@
 # Encoder - Decoder LSTM
 
-The model encoder-decoder RNN was firstly introduced by [Google in 2014](https://arxiv.org/pdf/1409.3215.pdf). The main goal was to map two sequences of different lengths. It is especially important in machine translation, where for example sentance in English can have 10 words, while it is translated to German it only has 6.
+The model encoder-decoder RNN was introduced by [Cho et al.]() and [Sutskever et al.](https://arxiv.org/pdf/1409.3215.pdf). The main goal was to map two sequences of different lengths. It is especially important in machine translation, where for example sentance in English can have 10 words, while it is translated to German it only has 6.
 ### Architecture:
 
 ![Model](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/model.jpeg)
