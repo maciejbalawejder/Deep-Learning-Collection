@@ -45,6 +45,25 @@ P = 0.5 # Dropout rate
 ```
 
 ### Results
-#### - Loss
-#### - Bleu score = 
-#### - Translations example
+#### Loss
+![Loss](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/loss.png) 
+#### Bleu score = 16.42
+![Bleu](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
+#### Translations example
+```
+Target : Woman in a pink shirt and wearing glasses.
+Prediction : Woman with glasses in a a shirt.
+```
+```
+Target : A young lady doing yoga on the beach.
+Prediction : A young lady is on the the beach.
+```
+```
+Target : A woman wearing a hat with making bread.
+Prediction : A woman in a hat hat. 🙃
+
+```
+### Improvements
+- [ ] train on more data
+- [ ] GRU cells
+- [ ] Beam serach instead of Force Teaching
