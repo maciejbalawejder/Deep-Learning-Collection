@@ -34,11 +34,17 @@ German : Ein mann schlaft in einem grunen raum auf einem sofa.
 English : A man sleeping in a green room on a couch.
 ```
 ### __Hyperparameters__:
-- SET : 128*30
-- BATCH : 50 -> 20 OVERFITTING 
-- SCORE : 15.5
+```
+BATCH = 128
+LEARNING_RATE = 0.001
+LAYERS = 1
+HIDDEN_DIM = 512
+EPOCHS = 25
+EMBEDDING_DIM = 300
+P = 0.5 # Dropout rate
+```
 
-
-
-
-### __Evaluation__:
+### Results
+#### - Loss:
+#### - Bleu score = :
+#### - Translations example:
