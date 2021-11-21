@@ -45,6 +45,6 @@ P = 0.5 # Dropout rate
 ```
 
 ### Results
-#### - Loss:
-#### - Bleu score = :
-#### - Translations example:
+#### - Loss
+#### - Bleu score = 
+#### - Translations example
