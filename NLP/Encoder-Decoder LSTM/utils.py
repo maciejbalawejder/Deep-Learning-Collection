@@ -8,6 +8,9 @@ Original file is located at
 """
 
 import torch
+from torchtext.data import Field, TabularDataset, BucketIterator # Version 0.6.0 so pip/conda install torchtext==0.6.0
+from torchtext.datasets import Multi30k
+import spacy
 
 def load_checkpoint(checkpoint, model, optimizer):
     model.load_state_dict(checkpoint["state_dict"])
@@ -32,3 +35,34 @@ def i2w(tensor, vocab, target=False):
         else:
             batch.append(sen)
     return batch
+
+def datasetGenerator(batch, device, max_size=10_000):
+    # Spacy_language => contains specific set of rules governing certain language and its specific in tokenization, stop words or functions. 
+    spacy_eng = spacy.load('en')
+    spacy_de = spacy.load('de')
+
+    # Tokenizing => breaking the sentances into list of words
+    def tokenize_eng(text):
+        return [tok.text for tok in spacy_eng.tokenizer(text)]
+    def tokenize_de(text):
+        return [tok.text for tok in spacy_de.tokenizer(text)]
+
+    # Creating Field which converts data to tensor and overall preprocess the data like a torchvision for images
+    english = Field(sequential=True, use_vocab=True, tokenize=tokenize_eng, lower=True, init_token = '<sos>', eos_token='<eos>')
+    german = Field(sequential=True, use_vocab=True, tokenize=tokenize_eng, lower=True, init_token = '<sos>', eos_token='<eos>')
+
+    # Splitting the data
+    train_data, validation_data, test_data = Multi30k.splits(exts=('.de', '.en'),
+                                                            fields=(german, english))
+    
+    # Creating vocabulary => list of words occuring in the dataset, min_freq => word needs to be used at least 2 times
+    english.build_vocab(train_data, max_size=max_size, min_freq=2)
+    german.build_vocab(train_data, max_size=max_size, min_freq=2)
+
+    # Creating iterators over dataset => tensors
+    train_iterator, validation_iterator, test_iterator = BucketIterator.splits(
+        (train_data, validation_data,test_data),
+        batch_size=batch,
+        device=device
+    )
+    return (train_iterator, validation_iterator, test_iterator), (train_data, validation_data, test_data), (english, german)
