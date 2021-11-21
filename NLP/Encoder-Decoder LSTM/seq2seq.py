@@ -11,6 +11,10 @@ import torch
 import random
 from torch import nn
 
+
+# Encoder : Input (32,128) => Embedding (32, 128, 256) => LSTM (32, 128, 512) [x]
+# Decoder : Input (1,128) => LSTM (33, 128, 256) => Embedding (33, 128, 512) []
+
 class Encoder(nn.Module):
     def __init__(self, input_size, embedding_size, hidden_size, layers, p, bidirectional=False):
         super(Encoder, self).__init__() 
@@ -20,6 +24,7 @@ class Encoder(nn.Module):
                            num_layers=layers, dropout=p, 
                            bidirectional=bidirectional)
         self.dropout = nn.Dropout(p=p)
+        self.bidirectional = bidirectional
 
     def forward(self,x):
         x = self.dropout(self.embedding(x))
@@ -40,9 +45,12 @@ class Decoder(nn.Module):
         self.output_size = output_size
 
     def forward(self, x, state):
+        x = x.unsqueeze(0)
         x = self.dropout(self.embedding(x))
         outputs, (hidden, cell) = self.RNN(x, state)
-        return self.dense(outputs)
+        pred = self.dense(outputs)
+        pred = pred.squeeze(0)
+        return pred, (hidden, cell)
 
 class Seq2Seq(nn.Module):
     def __init__(self, encoder, decoder):
@@ -50,26 +58,23 @@ class Seq2Seq(nn.Module):
         self.encoder = encoder
         self.decoder = decoder
 
-    def forward(self, source, target, flip=False, force_ratio=0.5):
+    def forward(self, source, target, force_ratio, flip=False):
         target_len, batch = target.shape
         outputs = torch.zeros(target_len, batch, self.decoder.output_size)
 
         hidden, cell = self.encoder(source)
 
-        if flip:
-            target = torch.flip(target, [0])
-
-        x = target[0].unsqueeze(0)
+        x = target[0]
 
         for t in range(1,target_len):
-            output = self.decoder(x, (hidden, cell))
-            outputs[t] = output
+            output, (hidden, cell) = self.decoder(x, (hidden, cell))
+            outputs[t] = output.unsqueeze(0)
             
-            pred = output.argmax(2)
+            pred = output.argmax(1)
 
             if random.random() > force_ratio:
-                x = target[t].unsqueeze(0)
-            else:
                 x = pred
+            else:
+                x = target[t]
 
-        return outputs.permute(0,2,1)
+        return outputs
