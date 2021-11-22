@@ -45,11 +45,11 @@ P = 0.5 # Dropout rate
 ```
 
 ### Results
-#### Loss
+#### 1) Loss
 ![Loss](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/loss.png) 
-#### Bleu score = 16.42
+#### 2) Bleu score = 16.42 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
 ![Bleu](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
-#### Translations example
+#### 3) Translations example
 ```
 Target : Woman in a pink shirt and wearing glasses.
 Prediction : Woman with glasses in a a shirt.
