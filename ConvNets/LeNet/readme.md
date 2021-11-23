@@ -4,7 +4,7 @@ LeNet-5 was introducted in 1998 by Yann LeCun, Leon Bottou, Yoshua Bengio, Patri
 
 The model consists of two sets of convolutional and average pooling layers, followed by three fully connected layers. 
 
-The paper __Gradient Based Recognition applied to document recognition__ is detalied in the architecture and in depth explanations, but little is said about the choice of the hyperparameters. Here are the intial values I used:
+The paper [__Gradient Based Recognition applied to document recognition__](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf) is detalied in the architecture and in depth explanations, but little is said about the choice of the hyperparameters. Here are the intial values I used:
 
 | Hyperparameters | Value| 
 |:---------------:|:----:|
