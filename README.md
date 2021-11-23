@@ -7,7 +7,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 
 ### Natural Language Processing
 - [x] __Encoder-Decoder LSTM__
-- [ ] __Encoder-Decoder LSTM with attention__
+- [ ] __Encoder-Decoder GRU with attention__
 - [ ] __Transformer__ 
 
 ### ConvNets:
