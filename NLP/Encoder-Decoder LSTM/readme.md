@@ -1,6 +1,6 @@
 # Encoder - Decoder LSTM
 
-The model encoder-decoder RNN was introduced by [Cho et al.]() and [Sutskever et al.](https://arxiv.org/pdf/1409.3215.pdf). The main goal was to map two sequences of different lengths. It is especially important in __translation__, where for example sentance in English can have 10 words, but when it is translated to German it only has 6. This papers proved that it is possible and this approach can surpass the previous state-of-the-art performance level. 
+The model encoder-decoder RNN was introduced by [Cho et al.](https://arxiv.org/pdf/1406.1078.pdf) and [Sutskever et al.](https://arxiv.org/pdf/1409.3215.pdf). The main goal was to map two sequences of different lengths. It is especially important in __translation__, where for example sentance in English can have 10 words, but when it is translated to German it only has 6. This papers proved that it is possible and this approach can surpass the previous state-of-the-art performance level. 
 ### Architecture:
 
 ![Model](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/model.jpeg)
