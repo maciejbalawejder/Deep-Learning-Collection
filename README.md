@@ -2,16 +2,16 @@
 Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__. 
 
 ### Sequential Models:
-- [x] [__RNN__](https://medium.com/nerd-for-tech/recurrent-neural-networks-3a0adb1d4515) / Numpy
-- [x] [__GRU__](https://medium.com/nerd-for-tech/premier-league-predictions-using-artificial-intelligence-7421dddc8778) / Tensorflow
+- [x] [__RNN__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/RNN) Numpy
+- [x] [__GRU__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/GRU) Tensorflow
 
-### Natural Language Processing
-- [x] __Encoder-Decoder LSTM__
-- [ ] __Encoder-Decoder GRU with attention__
+### Natural Language Processing(PyTorch):
+- [x] [__Encoder-Decoder LSTM__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Encoder-Decoder%20LSTM)
+- [x] [__Encoder-Decoder GRU with attention__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Encoder-Decoder%20GRU%20with%20Attention) 
 - [ ] __Transformer__ 
 
-### ConvNets:
-- [x] __LeNet-5__ / PyTorch
-- [ ] __VGG-16__ / PyTorch
-- [ ] __AlexNet__ / PyTorch
+### ConvNets(PyTorch):
+- [x] [__LeNet-5__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/LeNet)
+- [ ] __VGG-16__
+- [ ] __AlexNet__
 - [ ] __WaveNet__
