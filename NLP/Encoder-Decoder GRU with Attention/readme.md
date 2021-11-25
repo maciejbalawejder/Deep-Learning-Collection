@@ -1,5 +1,5 @@
 # Encoder-Decoder with Attention 
-[Cho et al.]() and [Sutskever et al.]() presented the encoder-decoder architecture that could encode __variable-length vector__(e.g sentance in English with 10 words) into vector __fixed length vector(vector representation)__
+[Cho et al.]() and [Sutskever et al.]() presented the encoder-decoder architecture that could encode __variable-length vector__(e.g sentance in English with 10 words) into vector __fixed length vector__(vector representation)
 and decode it into __variable-length vector__(e.g German sentance with 6 words).
 
 This approach is based on the bottleneck representation, which contains information from all the previous state, but on the way there much information can be discarded and lost, this is why long sequences are lost in translation. 
