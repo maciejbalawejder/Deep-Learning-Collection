@@ -17,14 +17,16 @@ __Encoder:__
 - bidirectional recurrent cell(GRU), which helps to keep the information around the word, not only the next word  
 - all the hidden states(__ht__) are saved
 
+
+__Context vector(c<sub>t</sub>)__:
+- calculated and feeded for each cell in the Decoder 
+- sum of all __a<sub>tT</sub>__( __att__ ension)
+
 __Decoder:__
 - outputs __y<sub>T</sub>__ sequence
 - regular recurrent cell(GRU)
 - takes the last hidden state from Encoder(it's not done in original paper, but it improves the performance)
 
-__Context vector(c<sub>t</sub>)__:
-- calculated and feeded for each cell in the Decoder 
-- sum of all __a<sub>tT</sub>__( __att__ ension)
 
 ### Attention mechanism:
 It is based on the context vector computed for each hidden cell in Decoder. 
