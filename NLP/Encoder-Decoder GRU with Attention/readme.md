@@ -40,10 +40,14 @@ At each timestep(t), we are calculating how similar is decoder state(__s<sub>t</
 -----------
 ### Tricks and tips:
 I leave also leave bunch of tricks for the implementation that might make it easier for you: 
-- the hidden states(__h__) of bidrectional cell have shape [seq length, batch, 2 x hidden_size]
-- to fit the __last decoder state__ [1, batch, 2 x hidden_size] as __first encoder state__ [1, batch, hidden_size], use __fully connected layer__ with input : 2 x hidden_size, and output : hidden_size
-- use torch.bmm(__@__ - matrix-matrix product) to calculate __context vector__
-- GRU cell in PyTorch returns the last hidden state from all layers, pick the output from the last two, and concatenate them along HIDDEN_DIM dimension
+1) the hidden states(__h__) of bidrectional cell have shape [seq length, batch, 2 x hidden_size]
+
+
+2) to fit the __last decoder state__ [1, batch, 2 x hidden_size] as __first encoder state__ [1, batch, hidden_size], use __fully connected layer__ with input : 2 x hidden_size, and output : hidden_size
+
+3) use __torch.bmm__(__@__ - matrix-matrix product) to calculate __context vector__
+
+4) GRU cell in PyTorch returns the last hidden state from all layers, pick the output from the last two, and concatenate them along HIDDEN_DIM dimension
 
 ```
         hts, hidden = self.RNN(xt)
@@ -51,7 +55,8 @@ I leave also leave bunch of tricks for the implementation that might make it eas
         # [1,128,HIDDEN_SIZE * 2]    
 ```
 
-- __Attention layer__ input is concatenated [__s<sub>t-1</sub>__, __h__]
-- All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
+5) __Attention layer__ input is concatenated [__s<sub>t-1</sub>__, __h__]
+
+6) All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
 
 
