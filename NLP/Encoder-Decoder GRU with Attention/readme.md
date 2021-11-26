@@ -26,22 +26,24 @@ __Decoder:__
 - outputs __y<sub>T</sub>__ sequence
 - regular recurrent cell(GRU)
 - takes the last hidden state from Encoder(it's not done in original paper, but it improves the performance)
-
+--------------
 
 ### Attention mechanism:
-At each timestep(t), we are calculating how similar is decoder state(__s<sub>t</sub>__) in relation the hidden state(__meaning__) of certain word in encoder. The similarity is an output of fully connected layer that is trained along with the encoder and decoder. Alright let put some maths into it. 
+At each timestep(t), we are calculating how similar is decoder state(__s<sub>t</sub>__) in relation the hidden state(__h<sub>T</sub>__) of certain word in encoder. The similarity is an output of fully connected layer that is trained along with the encoder and decoder. Alright let put some maths into it. 
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\\&space;e_{t}&space;=&space;attention(s_{t-1},&space;h)&space;\\&space;\alpha_{t}&space;=&space;softmax(e_{t})&space;\\&space;c_{t}&space;=&space;\alpha_{t}&space;@&space;h" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\\&space;e_{t}&space;=&space;attention(s_{t-1},&space;h)&space;\\&space;\alpha_{t}&space;=&space;softmax(e_{t})&space;\\&space;c_{t}&space;=&space;\alpha_{t}&space;@&space;h" title="\\ e_{t} = attention(s_{t-1}, h) \\ \alpha_{t} = softmax(e_{t}) \\ c_{t} = \alpha_{t} @ h" /></a>
 
-- e<sub>t</sub> - the result of the attention layer
-- alpha<sub>t</sub> - weights, gives the probability distribution which hidden states pay attention to
+- attention - fully connected layer   
+-  e<sub>t</sub> - the result of the attention layer
+- α<sub>t</sub> - weights, gives the probability distribution which hidden states pay attention to
 
-### Tricks and tips
-I leave also leave few tricks for the implementation that might make it easier for you to understand: 
-- the hidden state of bidrectional cell has shape [seq length, batch, 2 x hidden_size]
+-----------
+### Tricks and tips:
+I leave also leave bunch of tricks for the implementation that might make it easier for you: 
+- the hidden states(__h__) of bidrectional cell have shape [seq length, batch, 2 x hidden_size]
 - to fit the __last decoder state__ [1, batch, 2 x hidden_size] as __first encoder state__ [1, batch, hidden_size], use __fully connected layer__ with input : 2 x hidden_size, and output : hidden_size
-- use torch.bmm to perform the matrix-matrix product(__@__) of __weights__(alpha) and __hidden states__(h)
-- GRU cell in PyTorch returns the last hidden state from all layers, pick the output from the last two
+- use torch.bmm(__@__ - matrix-matrix product) to calculate __context vector__
+- GRU cell in PyTorch returns the last hidden state from all layers, pick the output from the last two, and concatenate them along HIDDEN_DIM dimension
 
 ```
         hts, hidden = self.RNN(xt)
@@ -49,6 +51,7 @@ I leave also leave few tricks for the implementation that might make it easier f
         # [1,128,HIDDEN_SIZE * 2]    
 ```
 
-- Attention layer input is concatenated [__s<sub>t-1</sub>__, __h__]
+- __Attention layer__ input is concatenated [__s<sub>t-1</sub>__, __h__]
+- All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
 
 
