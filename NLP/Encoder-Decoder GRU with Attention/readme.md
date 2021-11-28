@@ -60,3 +60,7 @@ I leave also leave bunch of tricks for the implementation that might make it eas
 6) All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
 
 
+### Results
+- Loss function
+- Bleu score
+- Translation examples:
