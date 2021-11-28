@@ -59,8 +59,49 @@ I leave also leave bunch of tricks for the implementation that might make it eas
 
 6) All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
 
+-------
 
+### Dataset:
+Multi30k - translation from German to English
+
+```
+German : Eine gruppe von mannern ladt baumwolle auf einen lastwagen.
+English : A group of men are loading cotton onto a truck.
+```
+
+```
+German : Ein mann schlaft in einem grunen raum auf einem sofa. 
+English : A man sleeping in a green room on a couch.
+```
+
+--------
+### __Hyperparameters__:
+```
+BATCH = 128
+LEARNING_RATE = 0.001
+LAYERS = 1
+HIDDEN_DIM = 512
+EPOCHS = 5
+EMBEDDING_DIM = 300
+P = 0.2 # Dropout rate
+```
+------
 ### Results
-- Loss function
-- Bleu score
-- Translation examples:
+#### 1) Loss
+![Loss]() 
+#### 2) Bleu score = 17.56 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
+![Bleu]()
+#### 3) Translation examples:
+```
+Target : A young lady doing yoga on the beach .
+Prediction : A young lady is doing the the on .
+```
+```
+Target : Two medium sized dogs run across the snow .
+Prediction : Two brown dogs dogs running across the snow .
+```
+```
+Target : A boy riding a skateboard on a skateboarding ramp
+Prediction : A boy is skateboarding on a skate .
+```
+
