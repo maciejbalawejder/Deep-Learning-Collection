@@ -55,7 +55,7 @@ I leave also leave bunch of tricks for the implementation that might make it eas
         # [1,128,HIDDEN_SIZE * 2]    
 ```
 
-5) __Attention layer__ input is concatenated [__s<sub>t-1</sub>__, __h__] passed through __ReLU function__
+5) __Attention layer__ input is concatenated [__s<sub>t-1</sub>__, __h__] and passed through __ReLU function__
 
 6) All the shapes after calculations are described in [seq2seqattetion.py](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/seq2seqattention.py) 
 
