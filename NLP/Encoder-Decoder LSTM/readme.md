@@ -39,7 +39,7 @@ BATCH = 128
 LEARNING_RATE = 0.001
 LAYERS = 1
 HIDDEN_DIM = 512
-EPOCHS = 25
+EPOCHS = 10
 EMBEDDING_DIM = 300
 P = 0.5 # Dropout rate
 ```
@@ -47,22 +47,18 @@ P = 0.5 # Dropout rate
 ### Results
 #### 1) Loss
 ![Loss](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/loss.png) 
-#### 2) Bleu score = 16.42 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
+#### 2) Bleu score = 13.2 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
 ![Bleu](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
 #### 3) Translations example
 ```
-Target : Woman in a pink shirt and wearing glasses.
-Prediction : Woman with glasses in a a shirt.
+Target : An african american man walking down the street .
+Prediction : A asian couple walking down the street . 🙃
 ```
 ```
-Target : A young lady doing yoga on the beach.
-Prediction : A young lady is on the the beach.
+Target : Three girls are smiling for a picture .
+Prediction : A girls pose for a picture .
 ```
-```
-Target : A woman wearing a hat with making bread.
-Prediction : A woman in a hat hat. 🙃
 
-```
 ### Improvements
 - [ ] train on more data
 - [ ] GRU cells
