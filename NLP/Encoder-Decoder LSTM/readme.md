@@ -61,5 +61,6 @@ Prediction : A girls pose for a picture .
 
 ### Improvements
 - [ ] train on more data
+- [ ] its overfitting even though I tried weight and force ratio decay and dropout
 - [ ] GRU cells
 - [ ] Beam serach instead of Force Teaching
