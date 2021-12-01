@@ -48,7 +48,6 @@ P = 0.5 # Dropout rate
 #### 1) Loss
 ![Loss](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/loss.png) 
 #### 2) Bleu score = 13.2 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
-![Bleu](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/bleu.png)
 #### 3) Translations example
 ```
 Target : An african american man walking down the street .
