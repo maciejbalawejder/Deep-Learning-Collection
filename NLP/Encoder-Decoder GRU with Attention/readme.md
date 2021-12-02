@@ -78,30 +78,28 @@ English : A man sleeping in a green room on a couch.
 ### __Hyperparameters__:
 ```
 BATCH = 128
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.003
 LAYERS = 1
-HIDDEN_DIM = 512
+HIDDEN_DIM = 1024
 EPOCHS = 5
 EMBEDDING_DIM = 300
-P = 0.2 # Dropout rate
+P = 0.5 # Dropout rate encoder, decoder 0.0
 ```
 ------
 ### Results
-#### 1) Loss
-![Loss]() 
-#### 2) Bleu score = 17.56 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
-![Bleu]()
-#### 3) Translation examples:
+#### 1) Loss - it overfits straight after 2 epoch, because of the small dataset, the best result is achieved by big learning rate at the start
+#### 2) Bleu score = 19.56 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
+#### 3) Translation examples: It performs much better than LSTM Encoder-Decoder, these are three first translations, and it seems that the model understand the concepts of the sentances. 
 ```
-Target : A young lady doing yoga on the beach .
-Prediction : A young lady is doing the the on .
+Target : Two boys play soccer against each other .
+Prediction : Two boys play playing soccer ball .
 ```
 ```
-Target : Two medium sized dogs run across the snow .
-Prediction : Two brown dogs dogs running across the snow .
+Target : Two soccer teams are on the field .
+Prediction : Two dogs are on the field .
 ```
 ```
-Target : A boy riding a skateboard on a skateboarding ramp
-Prediction : A boy is skateboarding on a skate .
+Target : Two men sitting in a restaurant .
+Prediction : Two men sit in a restaurant .
 ```
 
