@@ -8,7 +8,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 ### Natural Language Processing(PyTorch):
 - [x] [__Encoder-Decoder LSTM__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Encoder-Decoder%20LSTM)
 - [x] [__Encoder-Decoder GRU with attention__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Encoder-Decoder%20GRU%20with%20Attention)
-- [ ] [__Transformer__ ]()
+- [ ] [__Transformer__ ](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Transformer)
 
 ### ConvNets(PyTorch):
 - [x] [__LeNet-5__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/LeNet)
