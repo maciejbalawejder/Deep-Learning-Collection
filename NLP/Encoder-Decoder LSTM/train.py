@@ -51,14 +51,16 @@ for epoch in tqdm_notebook(range(1, EPOCHS+1), desc = 'Epoch'):
     tl, _ = MODEL.train_step(train_iterator, force_ratio)
     vl, vb = MODEL.validation_step(validation_iterator)
 
-    if  epoch > 2 and (vl-tl) > 0.1:
+    if vl > val_loss[-1]:
         print("Overfitting...")
         break
 
     if vl < min(val_loss):
         save_checkpoint(MODEL.checkpoint, 'drive/MyDrive/attentionv1')
-    if epoch&2 == 0 : STEPLR.step()
-    force_ratio = round(force_ratio*0.5,5)
+        
+    if epoch&2 == 0 : 
+        STEPLR.step()
+        force_ratio = round(force_ratio*0.5,5)
         
 
     train_loss.append(tl)
