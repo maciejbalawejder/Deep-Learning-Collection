@@ -10,3 +10,5 @@ So eventually __Transformer__ is a combination of Attention mechansim from RNNs 
 # Architecture
 
 ![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/imgs/architecture.png)
+
+
