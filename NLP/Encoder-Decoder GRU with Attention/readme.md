@@ -9,7 +9,7 @@ This approach is based on the bottleneck representation, which contains informat
 ### Architecture:
 
 <p align="center">
-    <img src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/">
+    <img src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/architecture.png">
 </p>
 
 __Encoder:__
