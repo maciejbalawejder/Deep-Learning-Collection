@@ -35,19 +35,20 @@ English : A man sleeping in a green room on a couch.
 ```
 ### __Hyperparameters__:
 ```
-BATCH = 128
+BATCH = 32
 LEARNING_RATE = 0.001
 LAYERS = 1
 HIDDEN_DIM = 512
 EPOCHS = 10
 EMBEDDING_DIM = 300
 P = 0.5 # Dropout rate
+dataset_size = 10_000 
 ```
 
 ### Results
 #### 1) Loss
 ![Loss](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20LSTM/imgs/loss.png) 
-#### 2) Bleu score = 13.2 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
+#### 2) Bleu score = 19.2 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
 #### 3) Translations example
 ```
 Target : An african american man walking down the street .
@@ -62,4 +63,4 @@ Prediction : A girls pose for a picture .
 - [ ] train on more data
 - [ ] its overfitting even though I tried weight and force ratio decay and dropout
 - [ ] GRU cells
-- [ ] Beam serach instead of Force Teaching
+- [ ] Beam serach
