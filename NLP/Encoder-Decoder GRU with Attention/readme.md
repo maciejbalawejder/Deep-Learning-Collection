@@ -78,7 +78,7 @@ English : A man sleeping in a green room on a couch.
 ### __Hyperparameters__:
 ```
 BATCH = 128
-LEARNING_RATE = 0.003
+LEARNING_RATE = 0.001
 LAYERS = 1
 HIDDEN_DIM = 512
 EPOCHS = 5
@@ -87,9 +87,10 @@ P = 0.5 # Dropout rate encoder 0.5 , decoder 0.1
 ```
 ------
 ### Results
-#### 1) Loss - it overfits straight after 2 epoch, because of the small dataset, the best result is achieved by big learning rate at the start
+#### 1) Loss
+![](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Encoder-Decoder%20GRU%20with%20Attention/loss.png)
 #### 2) Bleu score = 22.5 = ["The gist is clear, but has significant grammatical errors"](https://cloud.google.com/translate/automl/docs/evaluate)
-#### 3) Translation examples: It performs much better than LSTM Encoder-Decoder, these are three first translations, and it seems that the model understand the concepts of the sentances. 
+#### 3) Translation examples:
 ```
 Target : Two boys play soccer against each other .
 Prediction : Two boys play playing soccer ball .
