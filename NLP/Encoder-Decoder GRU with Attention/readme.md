@@ -80,15 +80,15 @@ English : A man sleeping in a green room on a couch.
 BATCH = 128
 LEARNING_RATE = 0.003
 LAYERS = 1
-HIDDEN_DIM = 1024
+HIDDEN_DIM = 512
 EPOCHS = 5
 EMBEDDING_DIM = 300
-P = 0.5 # Dropout rate encoder, decoder 0.0
+P = 0.5 # Dropout rate encoder 0.5 , decoder 0.1
 ```
 ------
 ### Results
 #### 1) Loss - it overfits straight after 2 epoch, because of the small dataset, the best result is achieved by big learning rate at the start
-#### 2) Bleu score = 19.56 = ["Hard to get the gist"](https://cloud.google.com/translate/automl/docs/evaluate)
+#### 2) Bleu score = 22.5 = ["The gist is clear, but has significant grammatical errors"](https://cloud.google.com/translate/automl/docs/evaluate)
 #### 3) Translation examples: It performs much better than LSTM Encoder-Decoder, these are three first translations, and it seems that the model understand the concepts of the sentances. 
 ```
 Target : Two boys play soccer against each other .
@@ -96,7 +96,7 @@ Prediction : Two boys play playing soccer ball .
 ```
 ```
 Target : Two soccer teams are on the field .
-Prediction : Two dogs are on the field .
+Prediction : Two dogs are on the field . 🙃
 ```
 ```
 Target : Two men sitting in a restaurant .
