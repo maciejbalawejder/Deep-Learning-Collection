@@ -47,6 +47,8 @@ __Multi-head__ means we split by the embedding size query, key, value, and calcu
 
 __Why decoder part is masked?__
 
+We mask decoder.
+
 
 
 
