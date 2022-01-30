@@ -8,17 +8,17 @@ The paper [__Gradient Based Recognition applied to document recognition__](http:
 
 | Hyperparameters | Value| 
 |:---------------:|:----:|
-| Batch           | 16   |
-| Optimizer       | SGD  |
-| Learning rate   | 0.1 |
-| Epochs          | 5   |
+| Batch           | 32   |
+| Optimizer       | Adam  |
+| Learning rate   | 0.00001 |
+| Epochs          | 10   |
 
  ![Architecure](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/architecture.png) 
  
  *I replace the Gaussian connection with the cross entropy loss function which achieve the same results more efficiently.
 
 ### Results
-- 98% accuracy on test data
+- 97% accuracy on test data
 
 
 ![Loss function](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/Loss_figure.png)
