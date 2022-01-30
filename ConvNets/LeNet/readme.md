@@ -21,4 +21,4 @@ The paper [__Gradient Based Recognition applied to document recognition__](http:
 - 97% accuracy on test data
 
 
-![Loss function](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/Loss_figure.png)
+![Loss function](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/Loss.png)
