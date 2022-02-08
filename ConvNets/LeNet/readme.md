@@ -8,7 +8,7 @@ The paper [__Gradient Based Recognition applied to document recognition__](http:
 |:---------------:|:----:|
 | Batch           | 32   |
 | Optimizer       | Adam  |
-| Learning rate   | 0.00001 |
+| Learning rate   | 0.0001 |
 | Epochs          | 10   |
 
  ![Architecure](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/LeNet/figures/architecture.png) 
