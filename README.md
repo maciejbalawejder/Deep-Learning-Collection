@@ -13,6 +13,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 ### ConvNets(PyTorch):
 - [x] [__LeNet-5__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/LeNet)
 - [x] [__AlexNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/AlexNet)
-- [ ] __VGG-16__
+- [x] [__VGG__]()
+- [ ] __Google LeNet__ 
 - [ ] __ResNet__
 - [ ] __SeNet__
