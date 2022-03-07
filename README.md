@@ -17,3 +17,4 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [ ] __Google LeNet__ 
 - [ ] __ResNet__
 - [ ] __SeNet__
+- [ ] __EfficientNet__
