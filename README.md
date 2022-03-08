@@ -1,7 +1,7 @@
 # Deep Learning notebooks
 Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__. 
 
-### Sequential Models:
+### Time-Series Models:
 - [x] [__RNN from scratch__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/RNN) Numpy
 - [x] [__GRU Football Predictions__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/GRU) Tensorflow
 
