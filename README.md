@@ -18,3 +18,4 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__ResNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/ResNet)
 - [ ] __SeNet__
 - [ ] __EfficientNet__
+- [ ] __EfficientNetv2__
