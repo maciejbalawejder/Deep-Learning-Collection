@@ -16,7 +16,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__VGG__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/VGG)
 - [x] [__GoogLeNet(InceptionV1)__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/GoogLeNet) 
 - [x] [__ResNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/ResNet)
-- [ ] __ResNeXt__
+- [x] [__ResNeXt__]
 - [ ] __SeNet__
 - [ ] __EfficientNet__
 - [ ] __EfficientNetv2__
