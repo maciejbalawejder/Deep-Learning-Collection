@@ -22,3 +22,4 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [ ] __EfficientNetv2__
 - [ ] __MobileNet__
 - [ ] __ConvNeXt__
+- [ ] __Fast-R-CNN__
