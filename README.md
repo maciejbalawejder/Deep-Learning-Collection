@@ -20,3 +20,5 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__SeNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/SeNet)
 - [ ] __EfficientNet__
 - [ ] __EfficientNetv2__
+- [ ] __MobileNet__
+- [ ] __ConvNeXt__
