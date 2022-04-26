@@ -9,7 +9,7 @@ MobileNet was introducted in 2017 paper [MobileNets: Efficient Convolutional Neu
 </p>
 
 Which consists of two operations:
-- __Depthwise Convolution__ - it's extreme version of group convolution __3x3__ kernel, where number of input channels is equal to the number of groups.
+- __Depthwise Convolution__ - it's extreme version of group convolution with __3x3__ kernel, where number of input channels is equal to the number of groups.
     
       depthwise = Conv2d(in_channels=n_in, out_channels=n_in, kernel_size=3, stride=1, padding=1, groups=n_in) 
     
@@ -19,7 +19,7 @@ Which consists of two operations:
 
 #### 2) __Two additional hyperparamters to create smaller and faster models__ :
       
-      α = (0, 1] - width multiplayer, it modifies input(αM) and output(αN) channels.
+      α = (0, 1] - width multiplayer, it modifies input(α * M) and output(α * N) channels.
       
       ρ = (0, 1] - resolution multiplayer, it modifies input resolution (ρ * 224) and internal representations.
       
