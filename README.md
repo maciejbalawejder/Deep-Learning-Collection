@@ -21,6 +21,7 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__EfficientNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/EfficientNet)
 - [x] [__MobileNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/MobileNet)
 - [x] [__MobileNetv2__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/MobileNetV2)
+- [x] [__Data augmentation__]()
 - [ ] __ResNet - Cifar10__
 - [ ] __EfficientNetv2__
 - [ ] __MobileNetv3__
