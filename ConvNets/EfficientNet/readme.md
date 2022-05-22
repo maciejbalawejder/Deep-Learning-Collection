@@ -33,3 +33,6 @@ The parameter `Φ` denotes available computational resources. Based on this valu
   src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/EfficientNet/baseline.png"
 >
 </p>
+
+# To-do:
+- [ ] add Stochastic Depth
