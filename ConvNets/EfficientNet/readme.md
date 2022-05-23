@@ -35,4 +35,4 @@ The parameter `Φ` denotes available computational resources. Based on this valu
 </p>
 
 # To-do:
-- [ ] add Stochastic Depth
+- [x] add Stochastic Depth
