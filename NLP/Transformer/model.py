@@ -232,7 +232,7 @@ class Transformer(nn.Module):
         return att_mask & pad_mask
 
 
-from config import Config
+from model_config import Config
 
 if __name__ == "__main__":
 
