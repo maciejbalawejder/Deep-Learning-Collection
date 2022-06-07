@@ -1,3 +1,5 @@
+import torch
+
 class Config:
     vocab_size : int = 5_000,
     window : int = 512,
@@ -6,4 +8,4 @@ class Config:
     p : float = 0.1,
     heads : int = 12,
     inner_state : int = 3072,
-    device : str = "cpu"
+    device : str = "mps" if torch.backends.mps.is_available() else "cpu"
