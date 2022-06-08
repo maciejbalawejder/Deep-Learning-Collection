@@ -20,9 +20,9 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 - [x] [__ResNet - CIFAR10__](https://github.com/maciejbalawejder/Data-Augmentation/blob/main/ResNet.py)
 - [x] [__ResNeXt__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/ResNeXt)
 - [x] [__SeNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/SeNet)
-- [x] [__EfficientNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/EfficientNet)
 - [x] [__MobileNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/MobileNet)
 - [x] [__MobileNetv2__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/MobileNetV2)
+- [x] [__MobileNetv3__]()
+- [x] [__EfficientNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/EfficientNet)
 - [ ] __EfficientNetv2__
-- [ ] __MobileNetv3__
 - [ ] __ConvNeXt__
