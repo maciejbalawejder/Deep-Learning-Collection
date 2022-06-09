@@ -22,7 +22,7 @@ bneck = Sequential(
 
 <p align="center">
 <img 
-  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/images/nl.png"
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/images/nls.png"
 >
 </p>
 
