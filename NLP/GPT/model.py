@@ -65,20 +65,18 @@ class GPT(nn.Module):
         self.word_emb = nn.Embedding(config.vocab_size, config.d_model)
         self.pos_emb = nn.Embedding(config.window, config.d_model)
         self.decoder = nn.ModuleList([DecoderLayer(config) for _ in range(config.layers)])
-        self.classifier = nn.Linear(config.d_model, config.vocab_size)
         self.dropout = nn.Dropout(config.p)
         self.config = config
 
     def forward(self, x: Tensor) -> Tensor:
         batch, window = x.shape
         positions = torch.arange(0, window).expand(batch, window).to(self.config.device) 
-        emb = self.dropout(self.word_emb(x) + self.pos_emb(positions))
+        dec_out = self.dropout(self.word_emb(x) + self.pos_emb(positions))
 
         for layer in self.decoder:
-            emb = layer(emb)
+            dec_out = layer(dec_out)
 
-        output = self.classifier(emb)
-        return output
+        return dec_out
 
 from config import Config
 if __name__ == "__main__":
