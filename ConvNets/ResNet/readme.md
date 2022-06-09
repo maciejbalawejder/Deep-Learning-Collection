@@ -17,4 +17,9 @@ The implementation contains __ResNet50__ configuration with __bottleneck buildin
 ![](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/ResNet/architectures.png)
 
 
+# TO-DO
+- [ ] add different configurations
+- [ ] convert it to .py file and add usage
+
+
 
