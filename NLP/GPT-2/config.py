@@ -14,18 +14,18 @@ class Base:
 class Config(Base):
     def __init__(
         self,
-        name : str
+        model_size : str
         ):
-        if name == "small":
+        if model_size == "small":
             Base.d_model = 768
             Base.layers = 12
-        elif name == "mid":
+        elif model_size == "mid":
             Base.d_model = 1024
             Base.layers = 24
-        elif name == "large":
+        elif model_size == "large":
             Base.d_model = 1280
             Base.layers = 36
-        elif name == "mega":
+        elif model_size == "mega":
             Base.d_model = 1600
             Base.layers = 48
         else:
