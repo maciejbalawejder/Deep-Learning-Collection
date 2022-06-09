@@ -5,7 +5,7 @@ based on the *inverted residual block* from __MobileNetv2__ but they also add th
 
 <p align="center">
 <img 
-  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV2/invertedblock.png"
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/bneck.png"
 >
 </p>
 
@@ -22,7 +22,7 @@ bneck = Sequential(
 
 <p align="center">
 <img 
-  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV2/invertedblock.png"
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/nl.png"
 >
 </p>
 
@@ -32,7 +32,19 @@ They also manually tailored the first convolution and last stage of the network,
 Essentially, they presented two configurations of __MobileNetv3__:
 - Large
 
+<p align="center">
+<img 
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/large.png"
+>
+</p>
+
 - Small
+
+<p align="center">
+<img 
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/MobileNetV3/small.png"
+>
+</p>
 
 # Usage
 
