@@ -6,6 +6,18 @@ EfficientNet was introducted in 2019 paper [EfficientNet: Rethinking Model Scali
 The main goal was to improve the efficiency of Deep Learning models to bring them on mobile devices. The main meat of the paper is introducting the __compound scalling method__. 
 The parameter `Φ` denotes available computational resources. Based on this values the size of the network and input resolution is adjusted.
 
+# Usage
+```python
+import torch
+from efficientnet_pytorch import EfficientNet
+
+model_config = "B0" # ["B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7"] -> are available
+efficientnet = EfficientNet(model_config)
+
+image = torch.rand(1, 3, 224, 224)
+outputs = efficientnet(image) # [1, n_classes]
+```
+
 <p align="center">
 <img 
   src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/EfficientNet/scalling.png"

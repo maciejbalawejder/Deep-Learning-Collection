@@ -11,7 +11,19 @@ __AlexNet__ was introduced in 2012 in [ImageNet Classification with Deep Convolu
   * Dropout
   * Data augmentation
 
-----
+
+# Usage
+```python
+import torch
+from alexnet_pytorch import AlexNet
+
+alexnet = AlexNet() # in_channels = 3, classes = 1000 as default
+
+image = torch.rand(1, 3, 224, 224)
+outputs = alexnet(image) # [1, n_classes]
+
+```
+
 # Architecture
 ![](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/AlexNet/architecture.png)
 ![](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/ConvNets/AlexNet/volumes.png)

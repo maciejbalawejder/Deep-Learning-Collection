@@ -25,6 +25,19 @@ Which consists of two operations:
       
       Baseline configuration is α = 1 and ρ = 1.
 
+# Usage
+```python
+import torch
+from mobilenet_pytorch import MobileNet
+rho = 1 # resolution multiplier
+alpha = 1 # width multiplier
+res = int(224 * rho)
+mobilenet = MobileNet(alpha)
+
+image = torch.rand(1,3,res,res)
+outputs = mobilenet(image) # [1, n_classes]
+```
+
 # Architecture
 
 <p align="center">
