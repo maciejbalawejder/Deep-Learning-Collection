@@ -1,4 +1,5 @@
 # VGG
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=c1lqOpFCJkw&t=478s).*
 
 VGG is a Deep CNN introduced in 2014 in a  ["Very Deep Convolutional Network for Large Scale Image Recognition"](https://arxiv.org/abs/1409.1556) paper. The model achieved __first place__ in localization and __second__ in classification in the 2014 __ImageNet competition__. The key takeaways from the article are:
 - Increased __depth__ of CNN is beneficial for accuracy

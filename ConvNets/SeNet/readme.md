@@ -1,6 +1,6 @@
 # SeNet
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=ySg2z8-fZRA&t=357s).*
 
-*This repo is follow up to my paper review on [YouTube](https://www.youtube.com/watch?v=ySg2z8-fZRA).*
 
 SeNet was introducted in 2017 paper [Squeeze-and-Excitation Networks
 ](https://arxiv.org/pdf/1709.01507.pdf). In this work, they focus on the channel

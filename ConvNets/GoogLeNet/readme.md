@@ -1,4 +1,5 @@
 # GoogLeNet(InceptionV1)
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=r92siBwTI8U&t=525s).*
 
 GoogLeNet is a Deep CNN introduced in 2014 in a  ["Going deeper with convolutions"](https://arxiv.org/pdf/1409.4842.pdf) paper. The model achieved __first place__ in classification 2014 __ImageNet competition__. The key takeaways from the article are:
 - Increased __depth__ and __width__ of CNN can increse the processing performance and final result 

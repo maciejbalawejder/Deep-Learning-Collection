@@ -1,4 +1,5 @@
 # ResNeXt
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=CANodHhCyCw&t=395s).*
 
 ResNeXt model was introduced in a 2016 paper ["Aggregated Residual Transformations for Deep Neural Networks"](https://arxiv.org/pdf/1611.05431.pdf) by Kaming He et al. This novel architecture is a combination of __VGG/ResNet__ way of stacking more layers, and __Inception's__ *split-transform-merge* technique. The ultimate goal they are tackling is getting __better results__ without __increasing depth__(more computation).
 

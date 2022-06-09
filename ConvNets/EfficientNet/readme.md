@@ -1,5 +1,6 @@
 # EfficientNet
-*This repo is follow up to my paper review on [YouTube](https://www.youtube.com/watch?v=eFMmqjDbcvw&t=108s).*
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=eFMmqjDbcvw&t=108s).*
+
 
 EfficientNet was introducted in 2019 paper [EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/pdf/1905.11946.pdf). 
 The main goal was to improve the efficiency of Deep Learning models to bring them on mobile devices. The main meat of the paper is introducting the __compound scalling method__. 
