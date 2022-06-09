@@ -81,6 +81,5 @@ class GPT(nn.Module):
 from config import Config
 if __name__ == "__main__":
     config = Config()
-    print(config)
     gpt = GPT(config)
-    gpt(torch.randint(0, config.vocab_size, (1, config.window))).shape
+    print(gpt(torch.randint(0, config.vocab_size, (1, config.window))).shape)
