@@ -43,7 +43,7 @@ bneck = Sequential(
 Unlike its precursors, researchers were using the __Natural Architecture Search(NAS)__ and __NetAdapt__ to find the optimal architecture. 
 They also manually tailored the first convolution and last stage of the network, reducing the complexity of the model while maintaining the accuracy. 
 Essentially, they presented two configurations of __MobileNetv3__:
-- Large
+### Large
 
 <p align="center">
 <img 
@@ -51,7 +51,7 @@ Essentially, they presented two configurations of __MobileNetv3__:
 >
 </p>
 
-- Small
+### Small
 
 <p align="center">
 <img 
