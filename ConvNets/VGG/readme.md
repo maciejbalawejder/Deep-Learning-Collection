@@ -13,9 +13,10 @@ import torch
 from vgg_pytorch import VGG
 
 model_size = "VGG11" # ["VGG11", "VGG13", "VGG16", "VGG19"] are available
-vgg = VGG(model_size)
-print(vgg(torch.rand(1, 3, 224, 224).shape))
+vgg11 = VGG(model_size)
 
+image = torch.rand(1, 3, 224, 224)
+outputs = vgg11(image) # [1, n_classes]
 ```
 # Architecture
 They tried __six__ different architectures, with 11, 13, 16, and 19 layers. I haven't included configuration __C__ in the code since 16 layers with __1x1 filters__ performed worse than one with __3x3__. Also, configuration __A-LRN__ contained a __local normalization layer__ that didn't improve the performance, so I skipped it.

@@ -29,6 +29,7 @@ Which consists of two operations:
 ```python
 import torch
 from mobilenet_pytorch import MobileNet
+
 rho = 1 # resolution multiplier
 alpha = 1 # width multiplier
 res = int(224 * rho)

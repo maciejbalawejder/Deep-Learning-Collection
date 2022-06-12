@@ -6,6 +6,7 @@ MobileNetv2 was introducted in 2018 paper [MobileNetV2: Inverted Residuals and L
 ```python
 import torch
 from mobilenetv2_pytorch import MobileNetv2
+
 rho = 1 # resolution multiplier
 alpha = 1 # width multiplier
 res = int(224 * rho)

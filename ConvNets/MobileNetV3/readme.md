@@ -7,10 +7,11 @@ based on the *inverted residual block* from __MobileNetv2__ but they also add th
 ```python
 import torch
 from mobilenetv3_pytorch import MobileNetv3
+
 model_size = "small"
 mobilenetv3 = MobileNetv3(model_size)
 
-image = torch.rand(1,3,224,224)
+image = torch.rand(1, 3, 224, 224)
 outputs = mobilenetv3(image) # [1, n_classes]
 ```
 

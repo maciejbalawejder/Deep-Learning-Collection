@@ -19,7 +19,7 @@ from alexnet_pytorch import AlexNet
 
 alexnet = AlexNet() # in_channels = 3, classes = 1000 as default
 
-image = torch.rand(1, 3, 224, 224)
+image = torch.rand(1, 3, 227, 227)
 outputs = alexnet(image) # [1, n_classes]
 
 ```
