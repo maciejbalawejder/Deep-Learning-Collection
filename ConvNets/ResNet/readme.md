@@ -11,7 +11,7 @@ import torch
 from resnet_pytorch import ResNet
 
 config_name = 50 # 101 and 150 are also available
-resnet50 = ResNet(50)
+resnet50 = ResNet(config_name)
 
 image = torch.rand(1, 3, 224, 224)
 outputs = resnet50(image) # [1, n_classes]
