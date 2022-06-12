@@ -5,6 +5,18 @@ ResNet model was introduced in 2015 in a ["Deep Residual Learning for Image Reco
 - The resiudal connections allow to deeper networks without degredetion of accuracy 
 - Residual connections imporoves flow of gradient
 
+# Usage
+```python
+import torch
+from resnet_pytorch import ResNet
+
+config_name = 50 # 101 and 150 are also available
+resnet50 = ResNet(50)
+
+image = torch.rand(1, 3, 224, 224)
+outputs = resnet50(image) # [1, n_classes]
+```
+
 # Architecture
 The implementation contains __ResNet50__ configuration with __bottleneck building block__.
 
@@ -18,8 +30,8 @@ The implementation contains __ResNet50__ configuration with __bottleneck buildin
 
 
 # TO-DO
-- [ ] add different configurations
-- [ ] convert it to .py file and add usage
+- [x] add different configurations
+- [x] convert it to .py file and add usage
 
 
 
