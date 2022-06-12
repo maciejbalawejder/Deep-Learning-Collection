@@ -5,6 +5,19 @@ ResNeXt model was introduced in a 2016 paper ["Aggregated Residual Transformatio
 
 They introduce a new parameter, *cardinality*(C), which controls the bottleneck width, and prove that it's more important than depth and width(feature maps). They also used __group convolution__ in their bottleneck block that speeds up computation and yields the same results as *1x1* projections.
 
+# Usage
+```python
+import torch
+from resnext_pytorch import ResNeXt
+
+config_name = 50 # 101 and 150 are also available
+C = 32 # cardinality
+resnext50 = ResNeXt(50, in_channels=3, classes=1000, C=C)
+
+image = torch.rand(1, 3, 224, 224)
+outputs = resnext50(image) # [1, n_classes]
+```
+
 # Architecture
 
 <p align="center">
