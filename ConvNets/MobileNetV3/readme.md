@@ -1,4 +1,7 @@
 # MobileNetV3
+
+*You can find the accompanying paper review video [here](https://www.youtube.com/watch?v=0oqs-inp7sA&t=1363s).*
+
 MobileNetv3 was introducted in 2019 paper [Searching for MobileNetV3
 ](https://arxiv.org/pdf/1905.02244.pdf). The main goal was a further imporvement of the efficiency of Deep Learning models on mobile devices. The new `bneck` block is 
 based on the *inverted residual block* from __MobileNetv2__ but they also add the __Sqeeze-and-Excitation module__ on the top of it.
