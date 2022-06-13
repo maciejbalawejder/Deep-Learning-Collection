@@ -80,7 +80,7 @@ class GPT2(nn.Module):
 
 from config import Config
 if __name__ == "__main__":
-    model_size = "small"
+    model_size = "mega"
     config = Config(model_size)
     gpt = GPT2(config)
     print(gpt(torch.randint(0, config.vocab_size, (1, config.window))).shape)
