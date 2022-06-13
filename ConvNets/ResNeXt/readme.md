@@ -12,7 +12,7 @@ from resnext_pytorch import ResNeXt
 
 config_name = 50 # 101 and 150 are also available
 C = 32 # cardinality
-resnext50 = ResNeXt(50, in_channels=3, classes=1000, C=C)
+resnext50 = ResNeXt(config_name, in_channels=3, classes=1000, C=C)
 
 image = torch.rand(1, 3, 224, 224)
 outputs = resnext50(image) # [1, n_classes]
