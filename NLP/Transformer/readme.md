@@ -1,5 +1,5 @@
 # Transfomer
-Transformer the bread-and-butter of current AI, the horsepower of the biggest breakthrough models such as __GPT-3__, __AlphaFold__, or __AlphaStar__. Introducted in 2017 in famous ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf) paper. 
+Transformer the bread-and-butter of current AI, the horsepower of the biggest breakthrough models such as __GPT-3__ or __AlphaFold__. It was introducted in 2017 in famous ["Attention is all you need"](https://arxiv.org/pdf/1706.03762.pdf) paper. 
 
 Previously the NLP was dominated by RNNs with Encoder-Decoder structure(+Attention) which work well on analysing the relationship between close words, but lose its accuracy on longer paragrath or articles, and they were computationally expensive. 
 
