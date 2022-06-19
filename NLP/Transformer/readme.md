@@ -9,7 +9,7 @@ So eventually __Transformer__ is a combination of Attention mechansim from RNNs 
 
 # Architecture
 
-![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/transformerE-D.png)
+![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/images/transformerE-D.png)
 
 Architecture is build upon Encoder-Decoder stucture, but a little bit different than the previous models. 
 
@@ -27,7 +27,7 @@ So we can trained additional __Embedding layer__ to recognize the positions of t
 
 ### 3) __Multi Head Attention__ 
 The heart of the model, bulid on __self-attention__ mechanism.
-![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/multihead.PNG)
+![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/images/multihead.PNG)
 
 __What are V, K, Q?__
 
