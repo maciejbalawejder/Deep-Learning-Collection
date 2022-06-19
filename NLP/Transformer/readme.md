@@ -7,6 +7,30 @@ In 2016, Convolution Neural Networks came to play with [ByteNet(WaveNet)](https:
 
 So eventually __Transformer__ is a combination of Attention mechansim from RNNs and parrael computation capabilities of CNNs. 
 
+
+# Usage
+```python
+    from model import Transformer, TransformerConfig
+
+    src_vocab_size = 100 # size of source vocabulary
+    trg_vocab_size = 50 # size of target vocabulary
+    trg_pad = 1 # index for pad token in target vocabulary
+    src_pad = 1 # index for pad token in source vocabulary
+    src = torch.randint(0, src_vocab_size, (4, 1)) # dummy source and vocab sentance
+    trg = torch.randint(0, trg_vocab_size, (2, 1))
+    
+    transformer = Transformer(
+            TransformerConfig,
+            src_vocab_size = src_vocab_size,
+            trg_vocab_size = trg_vocab_size,
+            src_pad = src_pad,
+            trg_pad = trg_pad
+            )
+
+    outputs = transformer(src, trg) # [seq_len, batch, trg_vocab_size]
+
+```
+
 # Architecture
 
 ![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/Transformer/images/transformerE-D.png)
