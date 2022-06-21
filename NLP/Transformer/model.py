@@ -84,19 +84,17 @@ class SelfAttention(nn.Module):
         V = self.V(v.reshape(batch, v_len, self.heads, self.head_dim))
 
         QK = torch.einsum("bqhd, bkhd -> bhqk", [Q, K])
-        scale = QK / math.sqrt(self.d)
+       
 
         if mask is not None:
-            scale = scale.masked_fill(mask == 0, float("-inf"))
-
+            QK = QK.masked_fill(mask == 0, float("-inf"))
+        
+        scale = QK / math.sqrt(self.d)
         softmax = self.dropout(F.softmax(scale, dim=-1))
         output = torch.einsum("bhqk, bvhd -> bqhd", [softmax, V])
         concat = output.reshape(q_len, batch, self.d)
-        linear = self.linear(concat)
-        addnorm = q + self.norm(linear)
-
-        return addnorm
-
+        return self.linear(concat)
+        
 class FeedForward(nn.Module):
     " Position-wise fully conntected feed-forward network with 2 linear transformations, where first is followed by GELU(inspiration from GPT) activation with Add&Norm operation."
     def __init__(
@@ -114,11 +112,8 @@ class FeedForward(nn.Module):
             nn.Dropout(p)
         )
 
-        self.norm = nn.LayerNorm(d)
-        
     def forward(self, x: Tensor) -> Tensor:
-        " Applying norm before the *add* operation empirically yields better results. "
-        return x + self.norm(self.ff(x))
+        return self.ff(x)
 
 class EncoderLayer(nn.Module):
     "Encoder layer with two sub-layers multi-head attention and position-wise fully conntected feed-forward network. "
@@ -133,9 +128,16 @@ class EncoderLayer(nn.Module):
 
         self.attention = SelfAttention(heads, d, p)
         self.ff = FeedForward(d, dff, p)
+        self.l1 = nn.LayerNorm(d)
+        self.l2 = nn.LayerNorm(d)
+        self.dropout = nn.Dropout(p)
 
-    def forward(self, q: Tensor, k: Tensor, v: Tensor, src_mask: Tensor) -> Tensor:
-        return self.ff(self.attention(q, k, v, src_mask))
+    def forward(self, x: Tensor, src_mask: Tensor) -> Tensor:
+        att_out = self.attention(x, x, x, src_mask)
+        addnorm1 = self.l1(x + self.dropout(att_out))
+        ff_out = self.ff(addnorm1)
+        addnorm2 = self.l2(addnorm1 + self.dropout(ff_out))
+        return addnorm2
 
 class Encoder(nn.Module):
     " Encoder with N-Encoding layers. "
@@ -153,7 +155,7 @@ class Encoder(nn.Module):
 
     def forward(self, x: Tensor, src_mask: Tensor) -> Tensor:
         for enc_layer in self.encoder:
-            x = enc_layer(x, x, x, src_mask)
+            x = enc_layer(x, src_mask)
         return x
 
 class DecoderLayer(nn.Module):
@@ -168,11 +170,22 @@ class DecoderLayer(nn.Module):
         super().__init__()
 
         self.masked_attention = SelfAttention(heads, d, p)
-        self.enc_layer = EncoderLayer(heads, d, dff, p)
+        self.enc_dec_attention = SelfAttention(heads, d, p)
+        self.ff = FeedForward(d, dff, p)
+        
+        self.l1 = nn.LayerNorm(d)
+        self.l2 = nn.LayerNorm(d)
+        self.l3 = nn.LayerNorm(d)
+        self.dropout = nn.Dropout(p)
 
     def forward(self, x: Tensor, k: Tensor, v: Tensor, trg_mask: Tensor, src_mask: Tensor) -> Tensor:
         q = self.masked_attention(x, x, x, trg_mask)
-        return self.enc_layer(q, k, v, src_mask)
+        addnorm1 = self.l1(self.dropout(q) + x)
+        enc_dec_out = self.enc_dec_attention(addnorm1, k, v, src_mask)
+        addnorm2 = self.l2(self.dropout(enc_dec_out) + addnorm1)
+        ff_out = self.ff(addnorm2)
+        addnorm3 = self.l3(self.dropout(ff_out) + addnorm2)
+        return addnorm3
 
 class Decoder(nn.Module):
     " Decoder with N-Encoding layers. "
@@ -210,7 +223,7 @@ class Transformer(nn.Module):
         self.pos_emb = PE(config.d, config.p)
         self.encoder = Encoder(config.N, config.heads, config.d, config.dff, config.p)
         self.decoder = Decoder(config.N, config.heads, config.d, config.dff, config.p)
-        self.head = nn.Linear(config.d, trg_vocab_size)
+        self.head = nn.Linear(config.d, trg_vocab_size, bias=False)
 
         self.src_pad = src_pad
         self.trg_pad = trg_pad
@@ -218,9 +231,9 @@ class Transformer(nn.Module):
 
     def forward(self, src: Tensor, trg: Tensor) -> Tensor:
         src_mask = self.get_src_mask(src, self.src_pad)
-        trg_mask = self.get_trg_mask(trg, self.trg_pad)
+        trg_mask = self.get_trg_mask(trg)
         src = self.pos_emb(self.src_emb(src))
-        trg = self.pos_emb(self.src_emb(trg))
+        trg = self.pos_emb(self.trg_emb(trg))
         # src and trg shape: [seq_len, batch, d(embedding_size)]
 
         enc_out = self.encoder(src, src_mask)
@@ -236,15 +249,18 @@ class Transformer(nn.Module):
         trg_mask = self.get_trg_mask(trg, self.trg_pad)
         return self.decoder(self.pos_emb(self.trg_emb(trg)), enc_out, enc_out, trg_mask, src_mask)
 
-    def get_src_mask(self, x: Tensor, src_pad: int):
-        seq_len, batch = x.shape
-        src_mask = (src != src_pad).transpose(0, 1)
-        return src_mask
-
-    def get_trg_mask(self, x: Tensor, trg_pad: int):
-        seq_len, batch = x.shape
-        trg_mask = (torch.triu(torch.ones((seq_len, seq_len), device=self.config.device)) == 1).transpose(0, 1)
+    def get_src_mask(self, src, pad_idx):
+        # src shape: [seq_len, batch]
+        seq_len, batch = src.shape
+        src_mask = src != pad_idx
+        return src_mask.reshape(batch, 1, 1, seq_len).to(self.config.device)
+    
+    def get_trg_mask(self, trg):
+        seq_len, batch = trg.shape
+        trg_mask = torch.triu(torch.zeros((seq_len, seq_len))==1).expand(batch, 1, seq_len, seq_len).to(self.config.device)
         return trg_mask
+        
+
 
 
 if __name__ == "__main__":
@@ -260,3 +276,5 @@ if __name__ == "__main__":
         )
 
     print(t(src, trg).shape)
+    print(torch.backends.mps.is_available())
+    print(torch.__version__)
