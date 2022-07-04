@@ -16,7 +16,7 @@ So eventually __Transformer__ is a combination of Attention mechansim from RNNs 
     trg_vocab_size = 50 # size of target vocabulary
     trg_pad = 1 # index for pad token in target vocabulary
     src_pad = 1 # index for pad token in source vocabulary
-    src = torch.randint(0, src_vocab_size, (4, 1)) # dummy source and vocab sentance
+    src = torch.randint(0, src_vocab_size, (4, 1)) # dummy source and target sentance
     trg = torch.randint(0, trg_vocab_size, (2, 1))
     
     transformer = Transformer(
