@@ -23,7 +23,12 @@ by Generative Pre-Training"](https://s3-us-west-2.amazonaws.com/openai-assets/re
 # Architecture
 Model largely follows the original transformer work but use decoder-only part. 
 
-![image](https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/GPT/images/GPT-architecture.png)
+
+<p align="center">
+<img 
+  src="https://github.com/maciejbalawejder/DeepLearning-collection/blob/main/NLP/GPT/images/GPT-architecture.png"
+>
+</p>
 
 
 
