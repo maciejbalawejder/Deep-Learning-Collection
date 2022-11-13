@@ -9,10 +9,7 @@ def get_config(config_name : str) -> list:
         list of updated values for each stage based on the config_name
     """
 
-    width, depth = 1, 1
-
     assert config_name in ["Base", "S", "M", "L", "XL"], "Wrong configuration name."
-    
     return configs[config_name]
 
 
