@@ -3,7 +3,7 @@ def get_config(config_name : str) -> list:
     """ Creates the configuration based on the config_name
 
     Args:
-        config_name - there are 3 available configurations : Base, S, M, L, XL
+        config_name - there are 5 available configurations : Base, S, M, L, XL
         
     Return:
         list of updated values for each stage based on the config_name
