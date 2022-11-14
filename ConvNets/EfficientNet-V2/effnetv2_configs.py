@@ -1,4 +1,3 @@
-
 def get_config(config_name : str) -> list:
     """ Creates the configuration based on the config_name
 
@@ -25,6 +24,7 @@ stage string:
     c - conv3x3?
     se(x) - squeeze and excitation block + (x) is ratio
 
+There are 6 stages in total the first conv and last block with conv1x1 + pooling + fc are not included.
 
 """
 base_config = [  # The baseline config for v2 models.
