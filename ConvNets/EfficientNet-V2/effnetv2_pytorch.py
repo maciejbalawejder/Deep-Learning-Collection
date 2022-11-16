@@ -2,24 +2,44 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 from stochastic_depth import StochasticDepth
+from effnetv2_configs import get_config
 
 class ConvBlock(nn.Module):
     """Convolution Block with Batch Normalization and Activation Function
 
-    Parameters:
-        in_channels : int - number of input channels
-        out_channels : int - number of output channels
-        kernel_size : int - int value of kernel 
-        stride : int - single number
-        groups : int - number of groups the input channels are split into
-        act : bool - defines if there is activation function
-        bias : bool - defines if convolution has bias
+    Parameters
+    ----------
+        in_channels : int 
+            number of input channels
 
-    Attributes:
-        padding : int - number of padding applied to the input
-        c : nn.Conv2d - convolution layer
-        bn : nn.BatchNorm2d - batch normalization
-        silu : nn.SiLU - silu activation function
+        out_channels : int
+            number of output channels
+
+        kernel_size : int
+            int value of kernel 
+            
+        stride : int
+            stride size
+
+        groups : int
+            number of groups the input channels are split into
+
+        act : bool
+            defines if there is activation function
+
+        bias : bool
+            defines if convolution has bias
+
+    Attributes
+    ----------
+        c : nn.Conv2d
+            convolution layer
+
+        bn : nn.BatchNorm2d
+            batch normalization
+
+        silu : nn.SiLU
+            silu activation function
     
     """
     def __init__(
@@ -44,62 +64,341 @@ class ConvBlock(nn.Module):
     def forward(self, x) -> Tensor:
         """Forward pass.
 
-        Parameters:
-            x : torch.Tensor - input image with shape (batch_size, in_channels, height, width).
+        Parameters
+        ----------
+            x : torch.Tensor
+                Input tensor with shape (batch_size, in_channels, height, width).
 
-        Returns :
-            torch.Tensor - output tensor of shape (batch_size, out_channels, height, width).
+        Returns
+        -------
+            ret : torch.Tensor
+                Output tensor of shape (batch_size, out_channels, height, width).
 
         """
         
         x = self.silu(self.bn(self.c(x)))
         return x
 
-# Squeeze-and-Excitation Block
 class SeBlock(nn.Module):
-    def __init__(self, in_channels, r):
+    """Squeeze-and-Excitation Block
+
+    Parameters
+    ----------
+        in_channels : int
+            number of input channels
+
+        r : int
+            reduction ratio
+
+    Attributes
+    ----------
+        globpool : nn.AdaptiveAvgPool2d 
+            global pooling operation(squeeze) that brings down spatial dimensions to (1,1) for all channels
+
+        fc1 : nn.Linear
+            first linear layer that brings down the number of channels the reduction space
+
+        fc2 : nn.Linear
+            second linear layer that brings up the number of channels the input space(excitation)
+
+        silu : nn.SiLU
+            silu activation function
+
+        sigmoid : nn.Sigmoid
+            sigmoid activation function
+
+    """
+
+    def __init__(
+                self, 
+                in_channels, 
+                r
+                ):
+
         super().__init__()
+
         C = in_channels
         self.globpool = nn.AdaptiveAvgPool2d((1,1))
         self.fc1 = nn.Linear(C, C//r, bias=False)
         self.fc2 = nn.Linear(C//r, C, bias=False)
-        self.silu = nn.SiLU()
-        self.sigmoid = nn.Sigmoid()
+        self.silu = nn.SiLU(inplace=True)
+        self.sigmoid = nn.Sigmoid(inplace=True)
 
-    def forward(self, x):
-        # x shape: [batch, channels, height, width]. 
+    def forward(self, x) -> Tensor:
+        """Forward pass.
+
+        Parameters
+        ----------
+            x : torch.Tensor
+                Input tensor with shape (batch_size, in_channels, height, width).
+
+        Returns
+        -------
+            ret : torch.Tensor
+                Output tensor of shape (batch_size, out_channels, height, width).
+
+        """
         f = self.globpool(x)
         f = torch.flatten(f,1)
         f = self.silu(self.fc1(f))
         f = self.sigmoid(self.fc2(f))
-        f = f[:,:,None,None]
-        # f shape: [batch, channels, 1, 1]
+        f = f[:,:,None,None] # f shape: [batch, channels, 1, 1]
 
         scale = x * f
         return scale
 
 class MBConv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride, exp, r, p):
+    """MBConv Block
+
+    Parameters
+    ----------
+        in_channels : int
+            number of input channels
+
+        out_channels : int
+            number of output channels
+
+        kernel_size : int
+            int value of kernel 
+
+        stride : int
+            single number
+
+        exp : int
+            expansion ratio
+
+        r : int
+            reduction ratio for SEBlock
+
+        p_sd : float
+            stochastic depth probablity
+
+    Attributes
+    ----------
+        use_connection : bool
+            defines whether use residual connection or not
+
+        block : nn.Sequential
+            collection of expansion operation, depthwise conv, seblock and reduction convolution
+
+        sd : nn.Module
+            stochastic depth operation that randomly drops a examples in the batch
+    """
+
+    def __init__(
+                self, 
+                in_channels, 
+                out_channels, 
+                kernel_size, 
+                stride, 
+                exp, 
+                r, 
+                p_sd
+                ):
+
         super().__init__()
+
         exp_channels = in_channels * exp
-        self.add = in_channels == out_channels and stride == 1
-        self.c1 = ConvBlock(in_channels, exp_channels, 1, 1) if exp > 1 else nn.Identity()
-        self.c2 = ConvBlock(exp_channels, exp_channels, kernel_size, stride, exp_channels)
-        self.se = SeBlock(exp_channels, r)
-        self.c3 = ConvBlock(exp_channels, out_channels, 1, 1, act=False)
+        self.use_connection = in_channels == out_channels and stride == 1
+        self.block = nn.Sequential(
+            ConvBlock(in_channels, exp_channels, 1, 1) if exp > 1 else nn.Identity(),
+            ConvBlock(exp_channels, exp_channels, kernel_size, stride, exp_channels),
+            SeBlock(exp_channels, r),
+            ConvBlock(exp_channels, out_channels, 1, 1, act=False)
+        )
+        
+        self.sd = StochasticDepth(p_sd)
 
-        # Stochastic Depth module with default survival probability 0.5
-        self.sd = StochasticDepth()
+    def forward(self, x) -> Tensor:
+        """Forward pass.
 
-    def forward(self, x):
-        f = self.c1(x)
-        f = self.c2(f)
-        f = self.se(f)
-        f = self.c3(f)
+        Parameters
+        ----------
+            x : torch.Tensor
+                Input tensor of shape (batch_size, in_channels, height, width).
 
-        if self.add:
+        Returns
+        -------
+            ret : torch.Tensor
+                Output tensor of shape (batch_size, out_channels, height, width).
+
+        """
+        f = self.block(x)
+
+        if self.use_connection:
+            f = self.sd(f)
             f = x + f
 
-        f = self.sd(f)
+        return f
+
+class FusedMBConv(nn.Module):
+    """Fused-MBConv Block
+        I removed the SEBlock since it doesn't exist in any of the configurations.
+
+    Parameters
+    ----------
+        in_channels : int
+            number of input channels
+
+        out_channels : int
+            number of output channels
+
+        kernel_size : int
+            int value of kernel 
+
+        stride : int
+            single number
+
+        exp : int
+            expansion ratio
+
+        p_sd : float
+            stochastic depth probablity
+
+    Attributes
+    ----------
+        use_connection : bool
+            defines whether use residual connection or not
+
+        block : nn.Sequential
+            collection of "fused" convolution and reduction convolution
+
+        sd : nn.Module
+            stochastic depth operation that randomly drops a examples in the batch
+    """
+
+    def __init__(
+                self, 
+                in_channels, 
+                out_channels, 
+                kernel_size, 
+                stride, 
+                exp, 
+                p_sd
+                ):
+
+        super().__init__()
+
+        exp_channels = in_channels * exp
+        self.use_connection = in_channels == out_channels and stride == 1
+        self.block = nn.Sequential(
+            ConvBlock(in_channels, exp_channels, kernel_size, stride, exp_channels),
+            ConvBlock(exp_channels, out_channels, 1, 1, act=False)
+        ) if exp > 1 else ConvBlock(in_channels, out_channels, kernel_size, stride)
+        
+        self.sd = StochasticDepth(p_sd)
+
+    def forward(self, x) -> Tensor:
+        """Forward pass.
+
+        Parameters
+        ----------
+            x : torch.Tensor
+                Input tensor of shape (batch_size, in_channels, height, width).
+
+        Returns
+        -------
+            ret : torch.Tensor
+                Output tensor of shape (batch_size, out_channels, height, width).
+
+        """
+        f = self.block(x)
+
+        if self.use_connection:
+            f = self.sd(f)
+            f = x + f
 
         return f
+
+class EfficientNetV2(nn.Module):
+    """EfficientNetV2 architecture
+    
+    Parameters
+    ----------
+        config_name : str
+            name of the configuration, there are available 5 options : Base, S, M, L, XL
+
+    Attributes
+    ----------
+        use_connection : bool
+
+    
+    """
+
+    def __init__(
+            self, 
+            config_name,
+            in_channels=3,
+            classes=1000,
+            add_head=True,
+            ):
+
+        super().__init__()
+
+        self.add_head = add_head
+        config = get_config(config_name)
+        self.blocks = nn.ModuleList([])
+        p_sd = 0.5
+
+        for n, stage in enumerate(config):
+            r, k, s, e, i, o, c = stage.split("_") # c -> fuse block or se
+            for _ in range(int(r[1:])):
+                if "c" in c:
+                    self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), p_sd))
+                else:
+                    v = float(c[-4:])
+                    self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), v, p_sd))
+            
+            if n == 0:
+                first_in_channel = i
+
+            if n == len(config):
+                last_out_channel = o
+
+        self.stem = ConvBlock(
+            in_channels=in_channels, 
+            out_channels=first_in_channel, 
+            kernel_size=3,
+            stride=1
+        )
+
+        self.final_conv = nn.Conv2d(last_out_channel, last_out_channel, 1, 1, 0)
+
+        self.head = nn.Sequential(
+                nn.AdaptiveAvgPool2d((1,1)),
+                nn.Linear(last_out_channel, classes)
+        )
+
+
+            
+    def forward(self, x) -> Tensor:
+        """Forward pass.
+
+        Parameters
+        ----------
+            x : torch.Tensor
+                Input tensor of shape (batch_size, in_channels, height, width).
+
+        Returns
+        -------
+            ret : torch.Tensor
+                Output tensor of shape (batch_size, classes).
+
+        """
+        x = self.stem(x)
+        for block in self.blocks:
+            x = block(x)
+
+        x = self.final_conv(x)
+        if self.add_head:
+            x = self.head(x)
+
+        return x
+
+
+if __name__ == "__main__":
+    effnet = EfficientNetV2("S")
+    img = torch.rand((1, 3, 224, 224))
+    print(effnet(img).shape)
+
+    

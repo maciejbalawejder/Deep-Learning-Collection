@@ -1,11 +1,16 @@
-def get_config(config_name : str) -> list:
-    """ Creates the configuration based on the config_name
+def get_config(config_name) -> list:
+    """ Returns configuration based on the config_name
 
-    Args:
-        config_name - there are 5 available configurations : Base, S, M, L, XL
+    Parameters
+    ----------
+        config_name : str
+            there are 5 available configurations : Base, S, M, L, XL
         
-    Return:
-        list of updated values for each stage based on the config_name
+    Return
+    ------
+        ret : list
+            list of updated values for each stage based on the config_name
+
     """
 
     assert config_name in ["Base", "S", "M", "L", "XL"], "Wrong configuration name."
@@ -85,3 +90,10 @@ configs = {
     "L" : l_config,
     "XL" : xl_config
 }
+
+
+if __name__ == "__main__":
+    conf = get_config("S")
+    for stage in conf:
+        r, k, s, e, i, o, c = stage.split("_") # c -> fuse block or se
+        print(c[-4:])
