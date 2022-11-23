@@ -50,7 +50,7 @@ class ConvBlock(nn.Module):
                 stride, 
                 groups=1, 
                 act=True, 
-                bias=False
+                bias=None
                 ):
 
         super().__init__()
@@ -88,7 +88,7 @@ class SeBlock(nn.Module):
             number of input channels
 
         r : int
-            reduction ratio
+            reduction ratio [0,1]
 
     Attributes
     ----------
@@ -118,9 +118,10 @@ class SeBlock(nn.Module):
         super().__init__()
 
         C = in_channels
+        sqeeze_channels = max(1, int(C*r))
         self.globpool = nn.AdaptiveAvgPool2d((1,1))
-        self.fc1 = nn.Linear(C, int(C * r), bias=False)
-        self.fc2 = nn.Linear(int(C * r), C, bias=False)
+        self.fc1 = nn.Linear(C, sqeeze_channels, bias=False)
+        self.fc2 = nn.Linear(sqeeze_channels, C, bias=False)
         self.silu = nn.SiLU(inplace=True)
         self.sigmoid = nn.Sigmoid()
 
