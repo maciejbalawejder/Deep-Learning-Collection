@@ -403,7 +403,7 @@ class EfficientNetV2(nn.Module):
             if n == len(config) - 1:
                 last_out_channel = int(o[1:])
 
-            self.blocks.append(*stage)
+            self.blocks.append(nn.Sequential(*stage))
 
         self.stem = ConvBlock(
             in_channels=in_channels, 
