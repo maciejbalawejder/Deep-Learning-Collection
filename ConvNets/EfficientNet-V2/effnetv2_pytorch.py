@@ -38,8 +38,8 @@ class ConvBlock(nn.Module):
         bn : nn.BatchNorm2d
             batch normalization
 
-        silu : nn.SiLU
-            silu activation function
+        activation : nn.SiLU or nn.Identity()
+            silu activation function or identity function(no operation)
     
     """
     def __init__(
@@ -59,7 +59,7 @@ class ConvBlock(nn.Module):
         padding = kernel_size // 2
         self.c = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride, padding=padding, bias=bias, groups=groups)
         self.bn = nn.BatchNorm2d(out_channels)
-        self.silu = nn.SiLU(inplace=True) if act else nn.Identity()
+        self.activation = nn.SiLU(inplace=True) if act else nn.Identity()
 
     def forward(self, x) -> Tensor:
         """Forward pass.
@@ -76,7 +76,7 @@ class ConvBlock(nn.Module):
 
         """
         
-        x = self.silu(self.bn(self.c(x)))
+        x = self.activation(self.bn(self.c(x)))
         return x
 
 class SeBlock(nn.Module):
@@ -316,10 +316,41 @@ class EfficientNetV2(nn.Module):
         config_name : str
             name of the configuration, there are available 5 options : Base, S, M, L, XL
 
+        in_channels : int 
+            number of input channels, default 3 for image
+
+        out_channels : int
+            number of output channels, default 1000 classes for imagenet
+
+        p_sd : float
+            stochastic depth probability
+
+        p_drop : float
+            dropout probability
+
+        add_pretrain_head : bool 
+            defines whether to add pretrained head or new one
+
     Attributes
     ----------
-        use_connection : bool
+        add_pretrain_head : bool
+            contains add add_pretrain_head parameters
 
+        blocks : nn.ModuleList
+            container for all MBConv and FusedMBConv blocks
+
+        stem : ConvBlock
+            first convolution block in the network
+
+        final_conv : ConvBlock
+            final convolution block before classification head
+
+        avgpool : nn.AdaptiveAvgPool2d
+            adaptive average pooling that squeezes all the channels
+
+        head : nn.Sequential
+            the final layers of the model with Dropout and classification layer
+        
     
     """
 
@@ -327,33 +358,43 @@ class EfficientNetV2(nn.Module):
             self, 
             config_name,
             in_channels=3,
-            classes=1000,
-            add_head=True,
+            out_channels=1000,
+            p_sd=0.2,
+            p_drop=0.5,
+            add_pretrain_head=True
             ):
 
         super().__init__()
 
-        self.add_head = add_head
+        self.add_pretrain_head = add_pretrain_head
         config = get_config(config_name)
         self.blocks = nn.ModuleList([])
-        p_sd = 0.5
+        total_no_blocks = sum([int(i.split("_")[0][1:]) for i in config]) # number of all blocks
+        stage_block_id = 0
+
 
         for n, stage in enumerate(config):
             r, k, s, e, i, o, c = stage.split("_") # c -> fuse block or se
             r = int(r[1:])
 
+            stage_block_id += 1
+            sd_prob = p_sd * float(stage_block_id) / total_no_blocks # adaptive stochastic depth probability which increases with depth
+
             # Only first MBConv has stride 2 or 1
             if "c" in c:
-                self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), p_sd))
+                self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), sd_prob))
             else:
-                self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), p_sd))
+                self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), sd_prob))
 
             if r > 1:
                 for _ in range(r-1):
+                    stage_block_id += 1
+                    sd_prob = p_sd * float(stage_block_id) / total_no_blocks
+
                     if "c" in c:
-                        self.blocks.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), p_sd))
+                        self.blocks.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), sd_prob))
                     else:
-                        self.blocks.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), p_sd))
+                        self.blocks.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), sd_prob))
 
             if n == 0:
                 first_in_channel = int(i[1:])
@@ -365,15 +406,14 @@ class EfficientNetV2(nn.Module):
             in_channels=in_channels, 
             out_channels=first_in_channel, 
             kernel_size=3,
-            stride=1
+            stride=2
         )
 
-        self.final_conv = nn.Conv2d(last_out_channel, 1280, 1, 1, 0)
-
+        self.final_conv = ConvBlock(last_out_channel, 1280, 1, 1)
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
         self.head = nn.Sequential(
-                nn.AdaptiveAvgPool2d((1,1)),
-                nn.Flatten(start_dim=1,end_dim=3),
-                nn.Linear(1280, classes)
+            nn.Dropout(p=p_drop, inplace=True),
+            nn.Linear(1280, out_channels)
         )
 
 
@@ -400,8 +440,9 @@ class EfficientNetV2(nn.Module):
 
         x = self.final_conv(x)
         print(x.shape)
-        if self.add_head:
-            x = self.head(x)
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        x = self.head(x)
         return x
 
 
