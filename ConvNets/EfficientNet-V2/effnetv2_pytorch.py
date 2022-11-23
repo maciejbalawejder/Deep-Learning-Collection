@@ -407,6 +407,7 @@ class EfficientNetV2(nn.Module):
         return x
 
 
+# sanity check
 if __name__ == "__main__":
     effnet = EfficientNetV2("Base")
     img = torch.rand((1, 3, 224, 224))
