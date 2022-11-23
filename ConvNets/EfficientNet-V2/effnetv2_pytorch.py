@@ -28,7 +28,7 @@ class ConvBlock(nn.Module):
             defines if there is activation function
 
         bias : bool
-            defines if convolution has bias
+            defines if convolution has bias parameter
 
     Attributes
     ----------
@@ -95,11 +95,11 @@ class SeBlock(nn.Module):
         globpool : nn.AdaptiveAvgPool2d 
             global pooling operation(squeeze) that brings down spatial dimensions to (1,1) for all channels
 
-        fc1 : nn.Linear
-            first linear layer that brings down the number of channels the reduction space
+        fc1 : nn.Conv2d
+            first linear/convolution layer that brings down the number of channels the reduction space
 
-        fc2 : nn.Linear
-            second linear layer that brings up the number of channels the input space(excitation)
+        fc2 : nn.Conv2d
+            second linear/convolution layer that brings up the number of channels the input space(excitation)
 
         silu : nn.SiLU
             silu activation function
@@ -120,8 +120,8 @@ class SeBlock(nn.Module):
         C = in_channels
         sqeeze_channels = max(1, int(C*r))
         self.globpool = nn.AdaptiveAvgPool2d((1,1))
-        self.fc1 = nn.Linear(C, sqeeze_channels, bias=False)
-        self.fc2 = nn.Linear(sqeeze_channels, C, bias=False)
+        self.fc1 = nn.Conv2d(C, sqeeze_channels, 1)
+        self.fc2 = nn.Conv2d(sqeeze_channels, C, 1)
         self.silu = nn.SiLU(inplace=True)
         self.sigmoid = nn.Sigmoid()
 
@@ -140,11 +140,8 @@ class SeBlock(nn.Module):
 
         """
         f = self.globpool(x)
-        f = torch.flatten(f,1)
         f = self.silu(self.fc1(f))
         f = self.sigmoid(self.fc2(f))
-        f = f[:,:,None,None] # f shape: [batch, channels, 1, 1]
-
         scale = x * f
         return scale
 
