@@ -119,10 +119,10 @@ class SeBlock(nn.Module):
 
         C = in_channels
         self.globpool = nn.AdaptiveAvgPool2d((1,1))
-        self.fc1 = nn.Linear(C, C//r, bias=False)
-        self.fc2 = nn.Linear(C//r, C, bias=False)
+        self.fc1 = nn.Linear(C, int(C * r), bias=False)
+        self.fc2 = nn.Linear(int(C * r), C, bias=False)
         self.silu = nn.SiLU(inplace=True)
-        self.sigmoid = nn.Sigmoid(inplace=True)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x) -> Tensor:
         """Forward pass.
@@ -202,7 +202,7 @@ class MBConv(nn.Module):
         self.use_connection = in_channels == out_channels and stride == 1
         self.block = nn.Sequential(
             ConvBlock(in_channels, exp_channels, 1, 1) if exp > 1 else nn.Identity(),
-            ConvBlock(exp_channels, exp_channels, kernel_size, stride, exp_channels),
+            ConvBlock(exp_channels, exp_channels, kernel_size, stride, groups=exp_channels),
             SeBlock(exp_channels, r),
             ConvBlock(exp_channels, out_channels, 1, 1, act=False)
         )
@@ -282,7 +282,7 @@ class FusedMBConv(nn.Module):
         exp_channels = in_channels * exp
         self.use_connection = in_channels == out_channels and stride == 1
         self.block = nn.Sequential(
-            ConvBlock(in_channels, exp_channels, kernel_size, stride, exp_channels),
+            ConvBlock(in_channels, exp_channels, kernel_size, stride),
             ConvBlock(exp_channels, out_channels, 1, 1, act=False)
         ) if exp > 1 else ConvBlock(in_channels, out_channels, kernel_size, stride)
         
@@ -342,18 +342,26 @@ class EfficientNetV2(nn.Module):
 
         for n, stage in enumerate(config):
             r, k, s, e, i, o, c = stage.split("_") # c -> fuse block or se
-            for _ in range(int(r[1:])):
-                if "c" in c:
-                    self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), p_sd))
-                else:
-                    v = float(c[-4:])
-                    self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), v, p_sd))
-            
-            if n == 0:
-                first_in_channel = i
+            r = int(r[1:])
 
-            if n == len(config):
-                last_out_channel = o
+            # Only first MBConv has stride 2 or 1
+            if "c" in c:
+                self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), p_sd))
+            else:
+                self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), p_sd))
+
+            if r > 1:
+                for _ in range(r-1):
+                    if "c" in c:
+                        self.blocks.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), p_sd))
+                    else:
+                        self.blocks.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), p_sd))
+
+            if n == 0:
+                first_in_channel = int(i[1:])
+
+            if n == len(config) - 1:
+                last_out_channel = int(o[1:])
 
         self.stem = ConvBlock(
             in_channels=in_channels, 
@@ -362,11 +370,12 @@ class EfficientNetV2(nn.Module):
             stride=1
         )
 
-        self.final_conv = nn.Conv2d(last_out_channel, last_out_channel, 1, 1, 0)
+        self.final_conv = nn.Conv2d(last_out_channel, 1280, 1, 1, 0)
 
         self.head = nn.Sequential(
                 nn.AdaptiveAvgPool2d((1,1)),
-                nn.Linear(last_out_channel, classes)
+                nn.Flatten(start_dim=1,end_dim=3),
+                nn.Linear(1280, classes)
         )
 
 
@@ -386,19 +395,20 @@ class EfficientNetV2(nn.Module):
 
         """
         x = self.stem(x)
+        print(x.shape)
         for block in self.blocks:
             x = block(x)
+            print(x.shape)
 
         x = self.final_conv(x)
+        print(x.shape)
         if self.add_head:
             x = self.head(x)
-
         return x
 
 
 if __name__ == "__main__":
-    effnet = EfficientNetV2("S")
+    effnet = EfficientNetV2("Base")
     img = torch.rand((1, 3, 224, 224))
     print(effnet(img).shape)
-
     
