@@ -91,7 +91,7 @@ configs = {
     "XL" : xl_config
 }
 
-
+# sanity check
 if __name__ == "__main__":
     conf = get_config("S")
     for stage in conf:
