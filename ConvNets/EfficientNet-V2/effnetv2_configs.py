@@ -26,10 +26,10 @@ stage string:
     e - expansion ratio
     i - input channels
     o - output channels
-    c - conv3x3?
-    se(x) - squeeze and excitation block + (x) is ratio
+    c or se(x) - c(no seblocks) or squeeze and excitation block + (x) is ratio
 
-There are 6 stages in total the first conv and last block with conv1x1 + pooling + fc are not included.
+There are 6 stages in total.
+The first conv(stem) and last block with conv1x1 + pooling + fc are not included in the configs.
 
 """
 base_config = [  # The baseline config for v2 models.
