@@ -337,7 +337,7 @@ class EfficientNetV2(nn.Module):
             contains add add_pretrain_head parameters
 
         blocks : nn.ModuleList
-            container for all MBConv and FusedMBConv blocks
+            container for all stages with MBConv and FusedMbConv
 
         stem : ConvBlock
             first convolution block in the network
@@ -373,8 +373,9 @@ class EfficientNetV2(nn.Module):
         stage_block_id = 0
 
 
-        for n, stage in enumerate(config):
-            r, k, s, e, i, o, c = stage.split("_") # c -> fuse block or se
+        for n, stage_config in enumerate(config):
+            stage = [] # list of blocks
+            r, k, s, e, i, o, c = stage_config.split("_") # c -> fuse block or se
             r = int(r[1:])
 
             stage_block_id += 1
@@ -382,9 +383,9 @@ class EfficientNetV2(nn.Module):
 
             # Only first MBConv has stride 2 or 1
             if "c" in c:
-                self.blocks.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), sd_prob))
+                stage.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), sd_prob))
             else:
-                self.blocks.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), sd_prob))
+                stage.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), sd_prob))
 
             if r > 1:
                 for _ in range(r-1):
@@ -392,15 +393,17 @@ class EfficientNetV2(nn.Module):
                     sd_prob = p_sd * float(stage_block_id) / total_no_blocks
 
                     if "c" in c:
-                        self.blocks.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), sd_prob))
+                        stage.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), sd_prob))
                     else:
-                        self.blocks.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), sd_prob))
+                        stage.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), sd_prob))
 
             if n == 0:
                 first_in_channel = int(i[1:])
 
             if n == len(config) - 1:
                 last_out_channel = int(o[1:])
+
+            self.blocks.append(*stage)
 
         self.stem = ConvBlock(
             in_channels=in_channels, 
@@ -446,7 +449,7 @@ class EfficientNetV2(nn.Module):
 # sanity check
 if __name__ == "__main__":
     models = ["Base", "S", "M", "L", "XL"]
-    for model in models:
+    for model in models[:1]:
         effnet = EfficientNetV2(model)
         img = torch.rand((1, 3, 224, 224))
         print(effnet(img).shape)
