@@ -433,13 +433,10 @@ class EfficientNetV2(nn.Module):
 
         """
         x = self.stem(x)
-        print(x.shape)
         for block in self.blocks:
             x = block(x)
-            print(x.shape)
 
         x = self.final_conv(x)
-        print(x.shape)
         x = self.avgpool(x)
         x = torch.flatten(x, 1)
         x = self.head(x)
@@ -448,7 +445,9 @@ class EfficientNetV2(nn.Module):
 
 # sanity check
 if __name__ == "__main__":
-    effnet = EfficientNetV2("Base")
-    img = torch.rand((1, 3, 224, 224))
-    print(effnet(img).shape)
-    
+    models = ["Base", "S", "M", "L", "XL"]
+    for model in models:
+        effnet = EfficientNetV2(model)
+        img = torch.rand((1, 3, 224, 224))
+        print(effnet(img).shape)
+        
