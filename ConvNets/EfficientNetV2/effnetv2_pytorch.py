@@ -87,8 +87,8 @@ class SeBlock(nn.Module):
         in_channels : int
             number of input channels
 
-        r : int
-            reduction ratio [0,1]
+        squeeze_channels : int
+            number of channels to squeeze to
 
     Attributes
     ----------
@@ -112,16 +112,15 @@ class SeBlock(nn.Module):
     def __init__(
                 self, 
                 in_channels, 
-                r
+                squeeze_channels
                 ):
 
         super().__init__()
 
         C = in_channels
-        sqeeze_channels = max(1, int(C*r))
         self.globpool = nn.AdaptiveAvgPool2d((1,1))
-        self.fc1 = nn.Conv2d(C, sqeeze_channels, 1)
-        self.fc2 = nn.Conv2d(sqeeze_channels, C, 1)
+        self.fc1 = nn.Conv2d(C, squeeze_channels, 1)
+        self.fc2 = nn.Conv2d(squeeze_channels, C, 1)
         self.silu = nn.SiLU(inplace=True)
         self.sigmoid = nn.Sigmoid()
 
@@ -165,9 +164,6 @@ class MBConv(nn.Module):
         exp : int
             expansion ratio
 
-        r : int
-            reduction ratio for SEBlock
-
         p_sd : float
             stochastic depth probablity
 
@@ -190,18 +186,18 @@ class MBConv(nn.Module):
                 kernel_size, 
                 stride, 
                 exp, 
-                r, 
                 p_sd
                 ):
 
         super().__init__()
 
+        squeeze_channels = max(1, in_channels//4)
         exp_channels = in_channels * exp
         self.use_connection = in_channels == out_channels and stride == 1
         self.block = nn.Sequential(
             ConvBlock(in_channels, exp_channels, 1, 1) if exp > 1 else nn.Identity(),
             ConvBlock(exp_channels, exp_channels, kernel_size, stride, groups=exp_channels),
-            SeBlock(exp_channels, r),
+            SeBlock(exp_channels, squeeze_channels),
             ConvBlock(exp_channels, out_channels, 1, 1, act=False)
         )
         
@@ -385,7 +381,7 @@ class EfficientNetV2(nn.Module):
             if "c" in c:
                 stage.append(FusedMBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), sd_prob))
             else:
-                stage.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), float(c[-4:]), sd_prob))
+                stage.append(MBConv(int(i[1:]), int(o[1:]), int(k[1:]), int(s[1:]), int(e[1:]), sd_prob))
 
             if r > 1:
                 for _ in range(r-1):
@@ -395,7 +391,7 @@ class EfficientNetV2(nn.Module):
                     if "c" in c:
                         stage.append(FusedMBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), sd_prob))
                     else:
-                        stage.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), float(c[-4:]), sd_prob))
+                        stage.append(MBConv(int(o[1:]), int(o[1:]), int(k[1:]), 1, int(e[1:]), sd_prob))
 
             if n == 0:
                 first_in_channel = int(i[1:])
