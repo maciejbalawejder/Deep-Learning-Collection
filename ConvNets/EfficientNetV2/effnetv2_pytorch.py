@@ -445,8 +445,12 @@ class EfficientNetV2(nn.Module):
 # sanity check
 if __name__ == "__main__":
     models = ["Base", "S", "M", "L", "XL"]
-    for model in models[:1]:
+    for model in models[2:3]:
         effnet = EfficientNetV2(model)
+        print(" ### MODEL ",model, "###")
+        for i, (k,v) in enumerate(effnet.state_dict().items()):
+            if i < 500:
+                print(k, " -> ", v.shape)
         img = torch.rand((1, 3, 224, 224))
         print(effnet(img).shape)
         
