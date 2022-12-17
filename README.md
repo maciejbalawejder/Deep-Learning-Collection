@@ -1,18 +1,18 @@
-# Deep Learning notebooks
-Implementations of Deep Learning models in Python using Pytorch. 
+# 📘 Deep Learning notebooks
+Collection of various deep learning architectures in Pytorch. Enjoy!
 
-### Time-Series Models:
+### ⏰ Time-Series Models:
 - [x] [__RNN from scratch__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/RNN) Numpy
 
-### Natural Language Processing(PyTorch):
+### 💬 Natural Language Processing:
 - [x] [__Transformer__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Transformer)
 - [x] [__GPT__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/GPT)
 
-### Vision Transformers:
+### 👾 Vision Transformers:
 - [x] [__ViT__](https://github.com/maciejbalawejder/Deep-Learning-Collection/tree/main/Vision-Transformers/Vit)
 - [ ] [__Swin__]()
 
-### ConvNets(PyTorch):
+### 👀 ConvNets:
 - [x] [__LeNet-5__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/LeNet)
 - [x] [__AlexNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/AlexNet)
 - [x] [__VGG__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/VGG)
@@ -25,4 +25,4 @@ Implementations of Deep Learning models in Python using Pytorch.
 - [x] [__MobileNetv3__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/MobileNetV3)
 - [x] [__EfficientNet__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/EfficientNet)
 - [x] [__EfficientNetv2__](https://github.com/maciejbalawejder/Deep-Learning-Collection/tree/main/ConvNets/EfficientNet-V2)
-- [ ] __ConvNeXt__
+- [ ] [__ConvNeXt__]()
