@@ -1,0 +1,4 @@
+wget
+numpy
+torch
+os
