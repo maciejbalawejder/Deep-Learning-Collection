@@ -1,5 +1,5 @@
 # Deep Learning notebooks
-Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__. 
+Implementations of Deep Learning models in Python using Pytorch. 
 
 ### Time-Series Models:
 - [x] [__RNN from scratch__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/Sequentials/RNN) Numpy
@@ -7,6 +7,10 @@ Implementations of Deep Learning models in Python using __Tensorflow/PyTorch__.
 ### Natural Language Processing(PyTorch):
 - [x] [__Transformer__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/Transformer)
 - [x] [__GPT__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/NLP/GPT)
+
+### Vision Transformers:
+- [x] [__ViT__](https://github.com/maciejbalawejder/Deep-Learning-Collection/tree/main/Vision-Transformers/Vit)
+- [ ] [__Swin__]()
 
 ### ConvNets(PyTorch):
 - [x] [__LeNet-5__](https://github.com/maciejbalawejder/DeepLearning-collection/tree/main/ConvNets/LeNet)
